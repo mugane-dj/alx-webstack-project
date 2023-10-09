@@ -1,1 +1,0 @@
-# Aid Crowdsource Platform
