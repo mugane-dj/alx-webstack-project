@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   const url = process.env.REDIS_URL;
   if (!url) {
-    throw new Error('Invalid/Missing environment variable: "REDIS_URI"') 
+    throw new Error('Invalid/Missing environment variable: "REDIS_URL"') 
   } else {
     redisClient = createClient({
       url

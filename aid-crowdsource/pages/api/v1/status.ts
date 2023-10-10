@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import redisClient from '../../../lib/redis';
 import clientPromise from '../../../lib/mongodb';
 
-export default async(req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let mongoStatus;
 
   try {
@@ -22,3 +22,5 @@ export default async(req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ message: "Redis service is down"})
   }
 };
+
+export default handler;
