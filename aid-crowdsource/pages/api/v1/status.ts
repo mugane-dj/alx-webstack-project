@@ -13,7 +13,7 @@ export default async(req: NextApiRequest, res: NextApiResponse) => {
     console.error(error);
   }
 
-  const redisStatus = redisClient.isAlive();
+  const redisStatus = (await redisClient).isReady;
   if (redisStatus && mongoStatus) {
     res.status(200).json({ message: "Services running" })
   } else if (redisStatus && !mongoStatus) {

@@ -1,52 +1,25 @@
-import { createClient, RedisClientType } from "redis";
-import { promisify } from "util";
+import { createClient, RedisClientType } from 'redis';
 
+let redisClient: RedisClientType;
 
-class RedisClient {
-    private client: RedisClientType;
-
-    constructor() {
-      this.client = createClient();
-      this.client.connect();
-      this.client.on("error", (error: Error) => {
-        console.log(`Redis client not connected to server: ${error}`);
-      });
-    }
-
-    isAlive(): boolean {
-      return this.client.isReady;
-    }
-  
-    async get(key: string): Promise<string | null> {
-      try {
-        const redisGet = promisify(this.client.get).bind(this.client);
-        const value = await redisGet(key);
-        return value;
-      } catch (error) {
-        throw error;
-      }
-    }
-  
-    async set(key: string, value: string, time: number): Promise<void> {
-      try {
-        const redisSet = promisify(this.client.set).bind(this.client);
-        await redisSet(key, value);
-        await this.client.expire(key, time);
-      } catch (error) {
-        throw error;
-      }
-    }
-  
-    async del(key: string): Promise<void> {
-      try {
-        const redisDel = promisify(this.client.del).bind(this.client);
-        await redisDel(key);
-      } catch (error) {
-        throw error;  
-      }
-    }
+if (process.env.NODE_ENV === 'development') {
+  redisClient = createClient();
+} else {
+  const url = process.env.REDIS_URL;
+  if (!url) {
+    throw new Error('Invalid/Missing environment variable: "REDIS_URI"') 
+  } else {
+    redisClient = createClient({
+      url
+    })
   }
-  
-  const redisClient = new RedisClient();
-  
-  export default redisClient;
+
+}
+
+redisClient
+  .on("error", err => {
+  console.log(`Redis client not connected to server: ${err}`)
+  })
+  .connect();
+
+export default redisClient;
