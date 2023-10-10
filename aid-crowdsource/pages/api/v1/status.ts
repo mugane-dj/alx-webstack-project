@@ -15,7 +15,7 @@ export default async(req: NextApiRequest, res: NextApiResponse) => {
 
   const redisStatus = (await redisClient).isReady;
   if (redisStatus && mongoStatus) {
-    res.status(200).json({ message: "Services running" })
+    res.status(200).json({ message: "All Services are running" })
   } else if (redisStatus && !mongoStatus) {
     res.status(500).json({ message: "MongoDB service is down"})
   } else if (!redisStatus && mongoStatus) {

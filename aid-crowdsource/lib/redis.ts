@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
 
 redisClient
   .on("error", err => {
-  console.log(`Redis client not connected to server: ${err}`)
+    console.log(`Redis client not connected to server: ${err}`)
   })
   .connect();
 
