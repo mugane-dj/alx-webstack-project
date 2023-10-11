@@ -16,6 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     console.log('Project cache hit');
                     res.status(200).json(JSON.parse(existingProject));
                 } else {
+                    console.log('Project cache miss');
                     const existingProject = await client.db().collection('projects').findOne<Project>({
                         _id: new ObjectId(String(projectId))
                     });
