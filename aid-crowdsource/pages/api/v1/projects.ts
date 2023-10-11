@@ -1,5 +1,5 @@
-import { User } from '../interfaces/IUser';
-import { Project } from '../interfaces/IProject';
+import { User } from '../../interfaces/IUser';
+import { Project } from '../../interfaces/IProject';
 import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
