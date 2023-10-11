@@ -71,6 +71,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         title,
                         description,
                         image,
+                        businessShortCode,
                         status: 'open',
                         createdAt: new Date(Date.now()),
                         updatedAt: null
