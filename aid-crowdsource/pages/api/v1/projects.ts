@@ -1,5 +1,5 @@
 import { User } from '../../interfaces/IUser';
-import { Project } from '../../interfaces/IProject';
+import { Project, ProjectStatus } from '../../interfaces/IProject';
 import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
@@ -72,7 +72,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         description,
                         image,
                         businessShortCode,
-                        status: 'open',
+                        status: ProjectStatus.PendingApproval,
                         createdAt: new Date(Date.now()),
                         updatedAt: null
                     });
@@ -112,7 +112,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 _id: new ObjectId(projectId as string)
             }, {
                 $set: {
-                    status: status as string,
+                    status: status as ProjectStatus,
                     updatedAt: new Date(Date.now())
                 }
             });
