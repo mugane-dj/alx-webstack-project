@@ -33,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const password = Buffer.from(`${businessShortCode}${passkey}${timestamp}`).toString('base64');
                 const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
                 const callBackURL = `${process.env.CALLBACK_URL}/expess-payment`;
-    
+ 
                 const requestBody = {
                     BusinessShortCode: businessShortCode,
                     Password: password,

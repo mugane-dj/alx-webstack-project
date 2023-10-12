@@ -108,6 +108,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             await client.db().collection('users').deleteOne({
                 _id: new ObjectId(userId as string)
             });
+            const usersProjects = foundUser.projects;
+            if (usersProjects) {
+                await client.db().collection('projects').deleteMany({
+                    _id: {
+                        $in: usersProjects.map(project => new ObjectId(project))
+                    }
+                });
+            }
             res.status(200).json({ message: 'User deleted successfully' });
         } catch (error: any) {
             res.status(500).json({ message: error.message })
