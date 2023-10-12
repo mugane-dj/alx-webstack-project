@@ -27,6 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         description: existingProject.description,
                         image: existingProject.image,
                         status: existingProject.status,
+                        goalAmount: existingProject.goalAmount,
                         createdAt: existingProject.createdAt,
                         updatedAt: existingProject.updatedAt
                     }
@@ -39,8 +40,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             }
         } else {
             try {
-                const projects = await client.db().collection('projects').find<Project>({}).toArray();
-                res.status(200).json(projects);         
+                const existingProjects = await redisClient.get('projects');
+                if (existingProjects) {
+                    console.log('Projects cache hit');
+                    res.status(200).json(JSON.parse(existingProjects));
+                } else {
+                    console.log('Projects cache miss');
+                    const projects = await client.db().collection('projects').find<Project>({}).toArray();
+                    redisClient.set('projects', JSON.stringify(projects));
+                    redisClient.expire('projects', 3600);
+                    res.status(200).json(projects);         
+                }    
             } catch (error: any) {
                 res.status(500).json({ message: error.message });
             }
@@ -48,12 +58,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             
     } else if (req.method === 'POST') {
         const { userId } = req.query;
-        const { title, description, image, businessShortCode } = req.body;
+        const { title, description, image, businessShortCode, goalAmount } = req.body;
         if (!userId) res.status(400).json({ message: 'Missing userId' });
         if (!title) res.status(400).json({ message: 'Missing title' });
         if (!description) res.status(400).json({ message: 'Missing description' });
         if (!image) res.status(400).json({ message: 'Missing image path' });
         if (!businessShortCode) res.status(400).json({ message: 'Missing business short code' });
+        if (!goalAmount) res.status(400).json({ message: 'Missing goal amount' });
 
         try {
             const existingUser = await client.db().collection('users').findOne<User>({
@@ -73,6 +84,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         image,
                         businessShortCode,
                         status: ProjectStatus.PendingApproval,
+                        goalAmount: parseInt(goalAmount as string, 10),
                         createdAt: new Date(Date.now()),
                         updatedAt: null
                     });
@@ -84,6 +96,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         }
                     });
                     await redisClient.del(`user-${userId}`);
+                    await redisClient.del('projects');
                     res.status(201).json({ message: `Project created successfully with id: ${project.insertedId.toString()}` });
                 } else {
                     res.status(404).json({ message: 'Project already exists' });
@@ -117,6 +130,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 }
             });
             await redisClient.del(`project-${projectId}`);
+            await redisClient.del('projects');
             if (user) {
                 await redisClient.del(`user-${user._id.toString()}`);
             }
@@ -136,6 +150,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 { $pull: { projects: new ObjectId(projectId as string) } }
             );
             await redisClient.del(`project-${projectId}`);
+            await redisClient.del('projects');
             res.status(200).json({ message: 'Project deleted successfully' });
         } catch (error: any) {
             res.status(500).json({ message: error.message });

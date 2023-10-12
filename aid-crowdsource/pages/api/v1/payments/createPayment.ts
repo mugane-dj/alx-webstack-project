@@ -32,6 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const timestamp = timeStamp();
                 const password = Buffer.from(`${businessShortCode}${passkey}${timestamp}`).toString('base64');
                 const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+                const callBackURL = `${process.env.CALLBACK_URL}/expess-payment`;
     
                 const requestBody = {
                     BusinessShortCode: businessShortCode,
@@ -42,9 +43,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     PartyA: phoneNumber,
                     PartyB: businessShortCode,
                     PhoneNumber: phoneNumber,
-                    CallBackURL: "https://medusa.requestcatcher.com/expess-payment",
-                    AccountReference: projectId,
-                    TransactionDesc: "Pay bill"
+                    CallBackURL: callBackURL,
+                    AccountReference: "AidCrowdLTD",
+                    TransactionDesc: "Aid payment"
                 }
     
                 const response = await fetch(url, {
@@ -61,7 +62,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 } else if (response.status === 400) {
                     res.status(400).json({ message: response.statusText });
                 } else {
-                    res.status(404).json({ message: 'Payment service unavailable' });
+                    res.status(response.status).json({ message: response.statusText });
                 }
             }
         } catch (error: any) {

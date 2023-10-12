@@ -13,6 +13,7 @@ export interface Project {
     description: string;
     image: string;
     status: ProjectStatus;
+    goalAmount: number;
     businessShortCode: string;
     createdAt: Date;
     updatedAt: Date;
