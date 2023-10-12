@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 } else {
                     console.log('Project cache miss');
                     const existingProject = await client.db().collection('projects').findOne<Project>({
-                        _id: new ObjectId(String(projectId))
+                        _id: new ObjectId(projectId as string)
                     });
                     if (!existingProject) return res.status(404).json({ message: 'Project does not exist' });
                     const project = {
@@ -57,7 +57,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         try {
             const existingUser = await client.db().collection('users').findOne<User>({
-                _id: new ObjectId(String(userId))
+                _id: new ObjectId(userId as string)
             });
             if (existingUser) {
                 const existingProject = await client.db().collection('projects').findOne<Project>({
@@ -102,11 +102,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         try {
             const foundProject = await client.db().collection('projects').findOne<Project>({
-                _id: new ObjectId(String(projectId))
+                _id: new ObjectId(projectId as string)
             });
             if (!foundProject) return res.status(404).json({ message: 'Project does not exist' });
             const user = await client.db().collection('users').findOne<User>({
-                projects: new ObjectId(String(projectId))
+                projects: new ObjectId(projectId as string)
             });
             await client.db().collection('projects').updateOne({
                 _id: new ObjectId(projectId as string)

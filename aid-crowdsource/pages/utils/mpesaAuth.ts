@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 
 type AuthData = {
-    access_token: String,
-    expires_in: String
+    access_token: string,
+    expires_in: string
 }
 
 const auth = async () => {

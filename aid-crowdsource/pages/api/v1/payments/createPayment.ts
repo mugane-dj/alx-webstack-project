@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             }
             const client = await clientPromise;
             const project = await client.db().collection('projects').findOne<Project>({
-                _id: new ObjectId(String(projectId))
+                _id: new ObjectId(projectId as string)
             });
             if (!project) {
                 res.status(404).json({ message: 'Project not found' });
@@ -43,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     PartyB: businessShortCode,
                     PhoneNumber: phoneNumber,
                     CallBackURL: "https://medusa.requestcatcher.com/expess-payment",
-                    AccountReference: "0112356789",
+                    AccountReference: projectId,
                     TransactionDesc: "Pay bill"
                 }
     
