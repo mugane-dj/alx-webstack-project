@@ -1,20 +1,7 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Inter } from "next/font/google"
-
-const interFont = Inter({ subsets: ["latin"] })
-
+import { createTheme} from '@mui/material/styles';
+import { mulishFont, interFont } from './utils/font';
 
 const mainTheme = createTheme({
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    textTransform: 'none'
-                }
-            }
-        }
-    },
-
     typography: {
         body2: {
             fontSize: 12,
@@ -41,7 +28,7 @@ const mainTheme = createTheme({
             color: '#727580'
         },
         allVariants: {
-            fontFamily: interFont.style.fontFamily,
+            fontFamily: interFont.style.fontFamily
         },
         h4: {
             fontSize: 20,
@@ -59,6 +46,7 @@ const mainTheme = createTheme({
         },
 
     },
+    
     palette: {
         primary: {
             main: "#d00000",
@@ -100,8 +88,16 @@ const mainTheme = createTheme({
             contrastText: '#000'
         },
 
-        // info:
     },
+    breakpoints: {
+        values: {
+          xs: 0,
+          sm: 600,
+          md: 960,
+          lg: 1280,
+          xl: 1920,
+        },
+      },
 
 });
 
