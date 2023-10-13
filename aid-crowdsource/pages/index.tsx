@@ -40,12 +40,6 @@ export default function Home({
   isConnected,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <div style={{ height: '100Vh' }}>
-      <Head>
-        <title>Aid Crowdsource</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main style={{ height: '100Vh' }}>
         <Grid container sx={{ display: "flex", flexDirection: 'row', height: '100%', width: '100%' }}>
           <Grid item xs={12}
             sx={{
@@ -132,7 +126,5 @@ export default function Home({
 
           </Grid>
         </Grid>
-      </main>
-    </div>
   )
 }
