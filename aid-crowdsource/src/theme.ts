@@ -42,6 +42,12 @@ const mainTheme = createTheme({
             fontWeight: 600,
             lineHeight: '28px'
         },
+        h6: {
+            fontSize: 18,
+            fontWeight: 400,
+            lineHeight: '30px'
+
+        }
 
     },
 
