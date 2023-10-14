@@ -37,7 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     }
                     await redisClient.set(`user-${id}`, JSON.stringify(user));
                     await redisClient.expire(`user-${id}`, 3600);
-                    res.status(200).json(user);
+                    res.status(200).json({ message: `Login successful for userId: ${user.id}` });
                 }
             }
             
