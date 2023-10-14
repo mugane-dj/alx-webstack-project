@@ -3,6 +3,7 @@ import { mulishFont, interFont } from './utils/font';
 
 const mainTheme = createTheme({
     typography: {
+        fontFamily: interFont.style.fontFamily,
         body2: {
             fontSize: 12,
             lineHeight: '20px',
@@ -27,9 +28,6 @@ const mainTheme = createTheme({
             fontSize: 16,
             color: '#727580'
         },
-        allVariants: {
-            fontFamily: interFont.style.fontFamily
-        },
         h4: {
             fontSize: 20,
             lineHeight: '25px'
@@ -46,7 +44,7 @@ const mainTheme = createTheme({
         },
 
     },
-    
+
     palette: {
         primary: {
             main: "#d00000",

@@ -3,9 +3,10 @@ import { Grid, Container, IconButton, Typography, TextField, InputAdornment, But
 import mainTheme from "../../../theme"
 import React from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { interFont, mulishFont } from "../../../utils/font";
+import { mulishFont } from "../../../utils/font";
+import PersonIcon from '@mui/icons-material/Person';
 
-export const LoginComponent = () => {
+export const SignupComponent = () => {
     const theme = useTheme();
     const [showPassword, setShowPassword] = React.useState(false);
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -21,7 +22,7 @@ export const LoginComponent = () => {
         }}>
             <Paper elevation={4} sx={{
                 margin: isSmallScreen ? '20px' : '100px',
-                height: '65vh',
+                height: '75vh',
                 width: '50%'
             }}>
                 <Grid item xs={12} sx={{
@@ -33,17 +34,29 @@ export const LoginComponent = () => {
                             <Typography fontWeight={600} my={1} sx={{
                                 textAlign: 'center', fontSize: 30, lineHeight: '38px', fontWeight: 600
                             }}>
-                                Login
+                                Sign Up
                             </Typography>
                             <Grid container mt={2} sx={{
                                 display: 'flex',
                                 flexDirection: "row",
-                                alignItems: 'center', justifyContent: 'center'
+                                 alignItems: 'center', justifyContent: 'center'
 
                             }}>
                                 <Grid item xs={8} mb={2}  >
-                                    <TextField required name="mail" fullWidth placeholder="Email"
-                                        size="small" sx={{ fontFamily: mulishFont }}
+                                    <TextField required name="username" fullWidth  placeholder="Username"
+                                        size="small" sx={{fontFamily: mulishFont}}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <PersonIcon/>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                         />
+                                </Grid>
+                                <Grid item xs={8} mb={2}  >
+                                    <TextField required name="mail" fullWidth  placeholder="Email"
+                                        size="small" sx={{fontFamily: mulishFont}}
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -51,7 +64,7 @@ export const LoginComponent = () => {
                                                 </InputAdornment>
                                             ),
                                         }}
-                                    />
+                                         />
                                 </Grid>
                                 <Grid item xs={8} mb={2} >
                                     <TextField
@@ -63,7 +76,34 @@ export const LoginComponent = () => {
                                         variant="outlined"
                                         placeholder="Password"
                                         size="small"
-                                        sx={{ fontFamily: mulishFont }}
+                                        sx={{fontFamily: mulishFont}}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                        edge="end"
+                                                    >
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={8} mb={2} >
+                                    <TextField
+                                        required
+                                        name="cpass"
+                                        type={showPassword ? 'text' : 'password'}
+                                        fullWidth
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        placeholder="Confirm Password"
+                                        size="small"
+                                        sx={{fontFamily: mulishFont}}
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -103,17 +143,9 @@ export const LoginComponent = () => {
                             </Grid>
                         </Container>
                     </form>
-                    {/* <Typography mt={3} variant="body1" component={'div'} sx={{
-                        color: mainTheme.palette.primary.contrastText,
-                        textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
-                        '&: hover': {
-                            color: mainTheme.palette.primary.light,
-                        }
-
-                    }} > */}
-                    <Link href="/signup" underline="none" sx={{
+                    <Link href="/signup"  underline="none" sx={{
                         marginTop: '20px',
-                        fontFamily: interFont,
+                        // fontFamily: interFont,
                         color: mainTheme.palette.primary.contrastText,
                         textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
                         '&: hover': {
@@ -121,8 +153,7 @@ export const LoginComponent = () => {
                         }
 
                     }}
-                    > Create an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
-                    {/* </Typography> */}
+                    > Already have an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
                 </Grid>
             </Paper >
 
