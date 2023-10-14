@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import { User } from '../../interfaces/IUser';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
-import hashPassword from '../../utils/hashPass';
+import hashPass from '../../utils/hashPass';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 
@@ -61,7 +61,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 const user = await client.db().collection('users').insertOne({
                     username,
                     email,
-                    password: hashPassword(password),
+                    password: hashPass.hashPassword(password),
                     projects: [],
                     createdAt: new Date(Date.now()),
                     updatedAt: null
@@ -87,7 +87,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 _id: new ObjectId(userId as string)
             }, {
                 $set: {
-                    password: hashPassword(password),
+                    password: hashPass.hashPassword(password),
                     updatedAt: new Date(Date.now())
                 }
             });
