@@ -46,11 +46,8 @@ const mainTheme = createTheme({
             fontSize: 18,
             fontWeight: 400,
             lineHeight: '30px'
-
         }
-
     },
-
     palette: {
         primary: {
             main: "#d00000",

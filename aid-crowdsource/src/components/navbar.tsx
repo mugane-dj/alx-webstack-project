@@ -12,13 +12,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import mainTheme from '../theme';
-import { Modal } from '@mui/material';
+import { Modal, Stack, TextField } from '@mui/material';
 
 const pages = ['Home'];
 const settings = ['Profile', 'Logout'];
 const style = {
     position: 'absolute' as 'absolute',
-    top: '30%',
+    top: '40%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
@@ -26,7 +26,7 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  };
+};
 
 function ResponsiveAppBar() {
     const [open, setOpen] = React.useState(false);
@@ -187,13 +187,32 @@ function ResponsiveAppBar() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                <Box sx={style} >
+                    <form>
+                        <Typography  variant={'h6'} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Name Of Project</Typography>
+                            <TextField variant='outlined' sx={{ width: '100%' }} />
+                        </Stack>
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Description</Typography>
+                            <TextField variant='outlined' multiline sx={{ width: '100%' }} />
+                        </Stack>
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Image</Typography>
+                            <input type='file' name='image'/>
+                        </Stack>
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
+                            <TextField variant='outlined' multiline sx={{ width: '100%' }} />
+                        </Stack>
+
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}mb={0.5}>Business ShortCode</Typography>
+                            <input name="businessshortcode" value={'174379'} />
+                        </Stack>
+
+                    </form>
                 </Box>
             </Modal>
         </AppBar>

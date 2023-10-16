@@ -1,14 +1,12 @@
-import { VisibilityOff, Visibility, Email, ArrowBackIosOutlined } from "@mui/icons-material"
-import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, useMediaQuery, useTheme, Link } from "@mui/material"
+import { VisibilityOff, Visibility, Email } from "@mui/icons-material"
+import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, Link } from "@mui/material"
 import mainTheme from "../../../theme"
 import React from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { interFont, mulishFont } from "../../../utils/font";
+import { interFont, } from "../../../utils/font";
 
 export const LoginComponent = () => {
-    const theme = useTheme();
     const [showPassword, setShowPassword] = React.useState(false);
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -20,7 +18,7 @@ export const LoginComponent = () => {
             background: 'linear-gradient(to right, #d00000, #ffc837)', display: "flex", justifyContent: 'center'
         }}>
             <Paper elevation={4} sx={{
-                margin: isSmallScreen ? '20px' : '100px',
+                margin: '100px',
                 height: '65vh',
                 width: '50%'
             }}>
@@ -43,7 +41,7 @@ export const LoginComponent = () => {
                             }}>
                                 <Grid item xs={8} mb={2}  >
                                     <TextField required name="mail" fullWidth placeholder="Email"
-                                        size="small" sx={{ fontFamily: mulishFont }}
+                                        size="small"
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -63,7 +61,6 @@ export const LoginComponent = () => {
                                         variant="outlined"
                                         placeholder="Password"
                                         size="small"
-                                        sx={{ fontFamily: mulishFont }}
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
@@ -88,7 +85,6 @@ export const LoginComponent = () => {
                                         textTransform: "none",
                                         fontSize: "16px",
                                         boxShadow: 'none',
-                                        fontFamily: mulishFont,
                                         backgroundColor: mainTheme.palette.primary.light,
                                         "&:hover": {
                                             backgroundColor: "white",
@@ -103,14 +99,6 @@ export const LoginComponent = () => {
                             </Grid>
                         </Container>
                     </form>
-                    {/* <Typography mt={3} variant="body1" component={'div'} sx={{
-                        color: mainTheme.palette.primary.contrastText,
-                        textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
-                        '&: hover': {
-                            color: mainTheme.palette.primary.light,
-                        }
-
-                    }} > */}
                     <Link href="/signup" underline="none" sx={{
                         marginTop: '20px',
                         fontFamily: interFont,
@@ -122,11 +110,8 @@ export const LoginComponent = () => {
 
                     }}
                     > Create an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
-                    {/* </Typography> */}
                 </Grid>
-            </Paper >
-
-
+            </Paper>
         </Grid >
     )
 }

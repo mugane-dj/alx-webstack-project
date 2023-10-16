@@ -14,10 +14,10 @@ const ProjectsComponent = () => {
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
                     <CardContent sx={{}}>
-                        <Typography component="div" variant="h6" color={mainTheme.palette.primary.contrastText}>
+                        <Typography component={'div'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
                             Restock of Brentwood food bank
                         </Typography>
-                        <Typography variant="subtitle2" color="text.secondary" component="div">
+                        <Typography variant={'subtitle2'} color="text.secondary" component={'div'}>
                             Amid the rising fears of tornado Alison,
                             we are urging the community to donate
                             towards the restocking of the Brentwood
