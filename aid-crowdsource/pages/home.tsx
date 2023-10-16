@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { LoginComponent } from "../src/app/auth/login/page";
 import ResponsiveAppBar from "../src/components/navbar";
 import ProjectsComponent from "../src/app/projects/home";
+import { Grid } from "@mui/material";
 
 const LoginPage: NextPage = () => {
     const [isloaded, setIsloaded] = useState(false)
@@ -12,7 +13,9 @@ const LoginPage: NextPage = () => {
     }, [])
     return <>
         <ResponsiveAppBar />
-        <ProjectsComponent />
+        <Grid container>
+            <ProjectsComponent />
+        </Grid>
     </>
 
 

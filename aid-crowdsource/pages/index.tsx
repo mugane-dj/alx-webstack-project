@@ -1,7 +1,6 @@
-import Head from 'next/head'
 import clientPromise from '../lib/mongodb'
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
-import { Button, Grid, Link, Paper, Typography } from '@mui/material'
+import { Button, Grid, Paper, Typography } from '@mui/material'
 import mainTheme from '../src/theme'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
@@ -55,7 +54,9 @@ export default function Home({
           textTransform: 'none', marginRight: '10px',
           borderRadius: '30px',
           width: '90px',
+          boxShadow: 'none',
           '&: hover': {
+            boxShadow: 'none',
             color: mainTheme.palette.primary.light,
             textTransform: 'none',
             border: `1px solid ${mainTheme.palette.primary.light}`,
@@ -63,15 +64,17 @@ export default function Home({
           }
         }}>Login
         </Button>
-        <Button variant='outlined' sx={{
+        <Button href='/signup' variant='outlined' sx={{
+          boxShadow: 'none',
           color: mainTheme.palette.primary.main,
           textTransform: 'none',
           border: `1px solid ${mainTheme.palette.primary.main}`,
           borderRadius: '30px',
           width: '100px',
           '&: hover': {
+            boxShadow: 'none',
             color: 'white',
-            backgroundColor: mainTheme.palette.primary.light,
+            backgroundColor: mainTheme.palette.primary.main,
             border: 'transparent'
           }
 

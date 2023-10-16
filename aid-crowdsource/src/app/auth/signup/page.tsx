@@ -1,4 +1,4 @@
-import { VisibilityOff, Visibility, Email, ArrowBackIosOutlined } from "@mui/icons-material"
+import { VisibilityOff, Visibility, Email,  } from "@mui/icons-material"
 import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, useMediaQuery, useTheme, Link } from "@mui/material"
 import mainTheme from "../../../theme"
 import React from "react";
@@ -34,7 +34,7 @@ export const SignupComponent = () => {
                             <Typography fontWeight={600} my={1} sx={{
                                 textAlign: 'center', fontSize: 30, lineHeight: '38px', fontWeight: 600
                             }}>
-                                Sign Up
+                               Create An Account
                             </Typography>
                             <Grid container mt={2} sx={{
                                 display: 'flex',
@@ -136,14 +136,14 @@ export const SignupComponent = () => {
                                             border: `solid 1px ${mainTheme.palette.primary.light}`,
                                             boxShadow: 'none'
                                         }
-                                    }} size="small" variant="contained" >Sign In
+                                    }} size="small" variant="contained" >Sign Up
                                     </Button>
                                 </Grid>
 
                             </Grid>
                         </Container>
                     </form>
-                    <Link href="/signup"  underline="none" sx={{
+                    <Link href="/login"  underline="none" sx={{
                         marginTop: '20px',
                         // fontFamily: interFont,
                         color: mainTheme.palette.primary.contrastText,
@@ -151,9 +151,8 @@ export const SignupComponent = () => {
                         '&: hover': {
                             color: mainTheme.palette.primary.light,
                         }
-
                     }}
-                    > Already have an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
+                    > Already have an Account? Sign In <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
                 </Grid>
             </Paper >
 

@@ -1,5 +1,4 @@
-import { Box, Button, Card, CardContent, CardMedia, Grid, IconButton, Stack, Typography } from "@mui/material"
-import theme from "../../theme";
+import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 
@@ -27,8 +26,8 @@ const ProjectsComponent = () => {
                         <Stack direction={'row'} sx={{mt: 1, alignItems: 'center', justifyContent: 'space-between'}}>
                             <Stack direction={'column'}>
                                 <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}> 
-                                Ksh 50,000</Typography>
-                                <Typography variant={'body2'}  component={'div'}>Ksh 5,000 raised</Typography>
+                              Goal Amount: Ksh 50,000</Typography>
+                                <Typography variant={'body2'}  component={'div'}>Amount Raised: Ksh 5,000 </Typography>
 
                             </Stack>
                             <Stack direction={'column'}>

@@ -1,5 +1,5 @@
 import { createTheme} from '@mui/material/styles';
-import { mulishFont, interFont } from './utils/font';
+import {interFont } from './utils/font';
 
 const mainTheme = createTheme({
     typography: {
