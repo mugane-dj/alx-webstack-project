@@ -31,7 +31,7 @@ export const LoginComponent = () => {
             setUser(data);
             localStorage.setItem('user', JSON.stringify(user));
             return user;
-
+            
         } catch (error) {
             console.log('error getting user data', error);
         }
@@ -68,7 +68,10 @@ export const LoginComponent = () => {
 
                 console.log(userId);
                 getUserDetails(userId);
+                localStorage.getItem('user')
+
                 alert('User login successfully')
+                  localStorage.setItem('user', JSON.stringify(getUserDetails(userId)));
                 router.push("/home");
             } else {
                 console.log("User ID not found in the log message.");

@@ -2,10 +2,10 @@
 import { NextPage } from "next";
 import { useState, useEffect } from 'react'
 import ResponsiveAppBar from "../src/components/navbar";
-import ProjectsComponent from "../src/app/projects/home";
+import { ProjectsComponent } from "../src/app/projects/home";
 import { Grid } from "@mui/material";
 
-const LoginPage: NextPage = () => {
+const HomePage: NextPage = () => {
     const [isloaded, setIsloaded] = useState(false)
     useEffect(() => {
         setIsloaded(true)
@@ -21,4 +21,4 @@ const LoginPage: NextPage = () => {
 }
 
 
-export default LoginPage;
+export default HomePage;

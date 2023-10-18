@@ -1,10 +1,18 @@
+
 import type { AppProps } from 'next/app'
+import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
+    const [isMounted, setIsMounted] = useState(false);
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
     return (
         <>
-           
-            <Component {...pageProps} />
+            {
+                isMounted == true ? <Component {...pageProps} /> : <></>
+            }
         </>
     );
 }

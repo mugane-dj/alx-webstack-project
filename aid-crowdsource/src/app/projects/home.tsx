@@ -1,31 +1,67 @@
 import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
+import { FormEvent, useEffect, useState } from "react";
+import { User } from "../../../pages/interfaces/IUser";
+
+
+export const ProjectsComponent = () => {
+    // const { title, description, image, businessShortCode, goalAmount } = req.body;
+
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('')
+    const [image, setImage] = useState('');
+    const [businessShortCode, setBusinessShortCode] = useState('');
+    const [goalAmount, setGoalAmount] = useState('');
+        const user = JSON.parse(localStorage.getItem('user')!) as User;
+        console.log(user, 'user')
+    //   }
+
+    useEffect(() => {
+        // getComplaintsAndComments();
+    }, [])
 
 
 
-// const getProjects = async() => {
-//     // let response = await fetch('http://localhost:3000/api/projects');
-//     try{
-//     let response = await fetch(
-//         "http://localhost:3000/api/projects",
-//         {
-//           method: "GET",
-//         }
-//       );
-//       response = await response.json();
-//       console.log(response, 'posts')
-//     } catch (error) {
-//         console.log("An error occurred while fetchig projects", error);
-// }
-    
-// }
+    // const GetAllProjects = async() => {
+    //     try{
+    //         const response = await fetch('/api/projects', {
+    //             method: 'GET'
+    //         });
+    //         const data = await response.json();
+    //         console.log(data, 'projects response data');
 
-// getProjects()
+    //     } catch (error) {
+    //         console.log('error fetching projects', error);
 
-const ProjectsComponent = () => {
+    //     }
+    // }
+
+    const CreateAProject = async(submit: FormEvent<HTMLFormElement>) => {
+        const formData = new FormData();
+        formData.append('title', title)
+        formData.append('description', description);
+        formData.append('image', image);
+        formData.append('businessShortCode', businessShortCode);
+        formData.append('goalAmount', goalAmount);
+        console.log(formData, 'fd');
+        console.log(title, description, image, businessShortCode, goalAmount);
+        // try {
+        //     const response = await axios.post('/api/projects', formData, {
+        //                     method: 'POST',
+                            
+        //                 });
+        //                 const data = await response.json();
+        //                 console.log(data, 'projects response data');
+
+        // } catch (error) {
+        //     console.log('error creating a project', error)
+        // }
+    }
+
+
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
-         <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6}>
             <Card sx={{ display: 'flex' }}>
                 <CardMedia
                     component="img"
@@ -44,18 +80,20 @@ const ProjectsComponent = () => {
                             towards the restocking of the Brentwood
                             food bank.
                         </Typography>
-                        <Stack direction={'row'} sx={{mt: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between' }}>
                             <Stack direction={'column'}>
-                                <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}> 
-                              Goal Amount: Ksh 50,000</Typography>
-                                <Typography variant={'body2'}  component={'div'}>Amount Raised: Ksh 5,000 </Typography>
+                                <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
+                                    Goal Amount: Ksh 50,000</Typography>
+                                <Typography variant={'body2'} component={'div'}>Amount Raised: Ksh 5,000 </Typography>
 
                             </Stack>
                             <Stack direction={'column'}>
                                 <Typography variant="button" display="block" gutterBottom textTransform={'none'}
-                                sx={{display: 'flex', flexDirection: 'row', alignItems: 'center',
-                                 color: mainTheme.palette.primary.light}}>
-                                    Donate Now <ArrowForward sx={{marginLeft: '7px'}}/>
+                                    sx={{
+                                        display: 'flex', flexDirection: 'row', alignItems: 'center',
+                                        color: mainTheme.palette.primary.light
+                                    }}>
+                                    Donate Now <ArrowForward sx={{ marginLeft: '7px' }} />
                                 </Typography>
 
                             </Stack>
@@ -84,18 +122,20 @@ const ProjectsComponent = () => {
                             towards the restocking of the Brentwood
                             food bank.
                         </Typography>
-                        <Stack direction={'row'} sx={{mt: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between' }}>
                             <Stack direction={'column'}>
-                                <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}> 
-                                Ksh 50,000</Typography>
-                                <Typography variant={'body2'}  component={'div'}>Ksh 5,000 raised</Typography>
+                                <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
+                                    Ksh 50,000</Typography>
+                                <Typography variant={'body2'} component={'div'}>Ksh 5,000 raised</Typography>
 
                             </Stack>
                             <Stack direction={'column'}>
                                 <Typography variant="button" display="block" gutterBottom textTransform={'none'}
-                                sx={{display: 'flex', flexDirection: 'row', alignItems: 'center',
-                                 color: mainTheme.palette.primary.light}}>
-                                    Donate Now <ArrowForward sx={{marginLeft: '7px'}}/>
+                                    sx={{
+                                        display: 'flex', flexDirection: 'row', alignItems: 'center',
+                                        color: mainTheme.palette.primary.light
+                                    }}>
+                                    Donate Now <ArrowForward sx={{ marginLeft: '7px' }} />
                                 </Typography>
 
                             </Stack>
@@ -110,4 +150,4 @@ const ProjectsComponent = () => {
 }
 
 
-export default ProjectsComponent;
+// export default ProjectsComponent;
