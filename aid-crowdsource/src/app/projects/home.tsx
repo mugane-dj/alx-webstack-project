@@ -2,6 +2,27 @@ import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from "@mui
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 
+
+
+// const getProjects = async() => {
+//     // let response = await fetch('http://localhost:3000/api/projects');
+//     try{
+//     let response = await fetch(
+//         "http://localhost:3000/api/projects",
+//         {
+//           method: "GET",
+//         }
+//       );
+//       response = await response.json();
+//       console.log(response, 'posts')
+//     } catch (error) {
+//         console.log("An error occurred while fetchig projects", error);
+// }
+    
+// }
+
+// getProjects()
+
 const ProjectsComponent = () => {
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
          <Grid item xs={12} md={6}>
