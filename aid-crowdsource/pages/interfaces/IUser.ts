@@ -9,3 +9,13 @@ export interface User {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export interface UserFrontend {
+    id: string;
+    username: string;
+    email: string;
+    projects: ObjectId[];
+    password: string;
+    createdAt: Date;
+    updatedAt: Date;
+}

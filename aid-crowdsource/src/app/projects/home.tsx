@@ -2,24 +2,32 @@ import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from "@mui
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 import { FormEvent, useEffect, useState } from "react";
-import { User } from "../../../pages/interfaces/IUser";
+import { User, UserFrontend } from "../../../pages/interfaces/IUser";
+
+
+// const getLoggedInUser = () => {
+//     if (typeof window !== 'undefined') {
+//         const user = (JSON.parse(localStorage.getItem('user')!) as User)
+//         console.log(user, user._id, 'loggedin')
+//     }
+// }
+
+// getLoggedInUser()
 
 
 export const ProjectsComponent = () => {
+    
+   
     // const { title, description, image, businessShortCode, goalAmount } = req.body;
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('');
-    const [businessShortCode, setBusinessShortCode] = useState('');
-    const [goalAmount, setGoalAmount] = useState('');
-        const user = JSON.parse(localStorage.getItem('user')!) as User;
-        console.log(user, 'user')
+
+    // const user = (JSON.parse(localStorage.getItem('user')!) as User);
+    // console.log(user, 'user')
     //   }
 
-    useEffect(() => {
-        // getComplaintsAndComments();
-    }, [])
+    // useEffect(() => {
+    //     // getComplaintsAndComments();
+    // }, [])
 
 
 
@@ -37,19 +45,19 @@ export const ProjectsComponent = () => {
     //     }
     // }
 
-    const CreateAProject = async(submit: FormEvent<HTMLFormElement>) => {
-        const formData = new FormData();
-        formData.append('title', title)
-        formData.append('description', description);
-        formData.append('image', image);
-        formData.append('businessShortCode', businessShortCode);
-        formData.append('goalAmount', goalAmount);
-        console.log(formData, 'fd');
-        console.log(title, description, image, businessShortCode, goalAmount);
+    const CreateAProject = async (submit: FormEvent<HTMLFormElement>) => {
+        // const formData = new FormData();
+        // formData.append('title', title)
+        // formData.append('description', description);
+        // formData.append('image', image);
+        // formData.append('businessShortCode', businessShortCode);
+        // formData.append('goalAmount', goalAmount);
+        // console.log(formData, 'fd');
+        // console.log(title, description, image, businessShortCode, goalAmount);
         // try {
         //     const response = await axios.post('/api/projects', formData, {
         //                     method: 'POST',
-                            
+
         //                 });
         //                 const data = await response.json();
         //                 console.log(data, 'projects response data');

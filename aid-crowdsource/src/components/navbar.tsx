@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import mainTheme from '../theme';
 import { Modal, Stack, TextField } from '@mui/material';
+import { User, UserFrontend } from '../../pages/interfaces/IUser';
+import axios from 'axios';
 
 const pages = ['Home'];
 const settings = ['Profile', 'Logout'];
@@ -30,6 +32,15 @@ const style = {
 
 function ResponsiveAppBar() {
     const [open, setOpen] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('')
+    const [image, setImage] = React.useState('');
+    const [imagUrl, setImagUrl] = React.useState('')
+    const businessShortCode = '174379';
+    const [userId, setUserId] = React.useState('')
+    const [goalAmount, setGoalAmount] = React.useState('');
+    const [imageUrl, setImageUrl] = React.useState('');
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -49,6 +60,45 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
+    console.log(user, user.id, 'loggedin')
+
+    const handleImageChange = (event: any) => {
+        const file = event.target.files[0];
+        // console.log(file, 'file')
+        setImage(file);
+        setImageUrl(URL.createObjectURL(file))
+
+        // return image
+
+    };
+    const createAProject = async (submit: React.FormEvent<HTMLFormElement>) => {
+        submit.preventDefault()
+         try {
+            //Notice that when the FormData object is converted to an array, it stores a two-dimensional array.
+            const formData = new FormData();
+            formData.append('title', title)
+            formData.append('description', description);
+            formData.append('image', image);
+            formData.append('businessShortCode', businessShortCode);
+            formData.append('goalAmount', goalAmount);
+            console.log(formData, 'fd');
+            console.log(Array.from(formData), 'arrayFrom');
+           
+        const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
+            method: 'POST',
+            body: formData,
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data, 'projects response data');
+        } else {
+            console.error('Error creating a project:', response.status);
+        }
+    } catch (error) {
+        console.error('Error creating a project', error);
+    }
+    }
 
     return (
         <AppBar position="static" sx={{ backgroundColor: mainTheme.palette.primary.light }}>
@@ -64,7 +114,6 @@ function ResponsiveAppBar() {
                             display: { xs: 'none', md: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
-                            // letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -153,7 +202,7 @@ function ResponsiveAppBar() {
                     <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="Remy Sharp" src="" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -187,31 +236,33 @@ function ResponsiveAppBar() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+
                 <Box sx={style} >
-                    <form>
-                        <Typography  variant={'h6'} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
+                    <form onSubmit={createAProject} encType="multipart/form-data">
+                        <Typography variant={'h6'} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
                         <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Name Of Project</Typography>
-                            <TextField variant='outlined' sx={{ width: '100%' }} />
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Title</Typography>
+                            <TextField variant='outlined' name='title' value={title} sx={{ width: '100%' }} onChange={(e) => setTitle(e.target.value)} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Description</Typography>
-                            <TextField variant='outlined' multiline sx={{ width: '100%' }} />
+                            <TextField variant='outlined' name='description' value={description} multiline sx={{ width: '100%' }} onChange={(e) => setDescription(e.target.value)} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Image</Typography>
-                            <input type='file' name='image'/>
+                            <input type='file' name='image' onChange={handleImageChange} />
+                        </Stack>
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>Business ShortCode</Typography>
+                            <input name="businessshortcode" value={businessShortCode} readOnly />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
-                            <TextField variant='outlined' multiline sx={{ width: '100%' }} />
+                            <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
+                        {/* <input type="text" name="userId" value={(JSON.parse(localStorage.getItem('user')!) as UserFrontend)._id}  /> */}
 
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}mb={0.5}>Business ShortCode</Typography>
-                            <input name="businessshortcode" value={'174379'} />
-                        </Stack>
-
+                        <Button type='submit'>Submit</Button>
                     </form>
                 </Box>
             </Modal>

@@ -6,7 +6,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { interFont, } from "../../../utils/font";
 import { useRouter } from "next/router";
 import PersonIcon from '@mui/icons-material/Person';
-import { User } from "../../../../pages/interfaces/IUser";
+import { User, UserFrontend } from "../../../../pages/interfaces/IUser";
 
 
 
@@ -19,19 +19,29 @@ export const LoginComponent = () => {
     const router = useRouter()
     const [password, setPassword] = useState('')
     const [username, setUserName] = useState('')
-    const [user, setUser] = useState<User>()
+    const [user, setUser] = useState<UserFrontend>()
+
+
     async function getUserDetails(userId: string) {
         try {
             const response = await fetch(`/api/v1/users?userId=${userId}`, {
                 method: 'GET',
-                // body: JSON.stringify(userId)
             });
             const data = await response.json();
             console.log(data, 'userdata');
             setUser(data);
-            localStorage.setItem('user', JSON.stringify(user));
-            return user;
-            
+
+            // Now, save the updated user data to localStorage
+            try {
+                localStorage.setItem('user', JSON.stringify(data));
+                console.log('User data saved to localStorage');
+                console.log(user, 'loguser')
+            } catch (localStorageError) {
+                console.log('Error saving user data to localStorage:', localStorageError);
+            }
+
+            return data;
+
         } catch (error) {
             console.log('error getting user data', error);
         }
@@ -68,15 +78,13 @@ export const LoginComponent = () => {
 
                 console.log(userId);
                 getUserDetails(userId);
-                localStorage.getItem('user')
-
-                alert('User login successfully')
-                  localStorage.setItem('user', JSON.stringify(getUserDetails(userId)));
-                router.push("/home");
+                alert('Login Successful');
+                router.push('/home')
             } else {
+                alert('invalid username or password')
                 console.log("User ID not found in the log message.");
             }
-           
+
         } catch (error) {
             alert('User not found')
             console.log(error, 'logintsx error');
