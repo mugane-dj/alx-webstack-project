@@ -27,5 +27,8 @@
     "react-hot-toast": "^2.4.1",
     "redis": "^4.6.10",
     "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/multer": "^1.4.9"
   }
 }
