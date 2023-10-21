@@ -22,8 +22,9 @@ export interface Project {
 
 
 export type AllProjects = ProjectFrontend[]
+
 export interface ProjectFrontend {
-    map(arg0: (project: any, i: any) => import("react").JSX.Element): import("react").ReactNode;
+    [x: string]: any;
     id: string;
     title: string;
     description: string;
