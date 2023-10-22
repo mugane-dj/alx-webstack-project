@@ -4,8 +4,39 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
 import { NextApiRequest, NextApiResponse } from 'next';
+import formidable, { Fields, Files, errors as formidableErrors } from 'formidable';
+import { promises as fs } from 'fs'
+import http from 'node:http';
+import { parseForm } from '../../../lib/parse-form';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+
+
+// import nextConnect from 'next-connect';
+
+// const fileStorage = multer.diskStorage({
+//     destination: 'aid-crowdsource/public/Images',
+//     filename: (req, file, cb) => cb(null, file.originalname),
+// })
+
+// const options = {
+//     filename: undefined,
+//     // uploadDir: os.tmpdir(),
+
+// }
+
+
+
+// interface FileObject {
+//     filepath: string;
+//   }
+  
+
+
+// var mv = require('mv');
+
+
+
+const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res: NextApiResponse) => {
     const client = await clientPromise;
     if (req.method === 'GET') {
         const { projectId } = req.query;
@@ -49,23 +80,53 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     const projects = await client.db().collection('projects').find<Project>({}).toArray();
                     redisClient.set('projects', JSON.stringify(projects));
                     redisClient.expire('projects', 3600);
-                    res.status(200).json(projects);         
-                }    
+                    res.status(200).json(projects);
+                }
             } catch (error: any) {
                 res.status(500).json({ message: error.message });
             }
         }
+
+    }
+    else if (req.method === 'POST') {
+        // try {
+        //     const { fields, files } = await parseForm(req);
+
+        //     console.log({ fields, files })
+        //     interface FileObject {
+        //         filepath: string;
+        //       }
             
-    } else if (req.method === 'POST') {
+        //       // Get the 'media' property from files
+        //       const file = files.media;
+
+        //       console.log('filey', file);
+            
+        //       // Now you can work with the file variable
+        //     //   let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.
+
+
+        // } catch (e) {
+        //     if (e) {
+        //         (console.log(e, 'formidable errors'))
+        //     } else {
+        //         console.error(e);
+        //         res.status(500).json({ data: null, error: "Internal Server Error" });
+        //     }
+        // }
+
+
         const { userId } = req.query;
-        const { title, description, image, businessShortCode, goalAmount } = req.body;
+        // console.log(userId, 'uid')
+
+        const { title, description, businessShortCode, image, goalAmount } = req.body;
+        // console.log(req.body, "images backend")
         if (!userId) res.status(400).json({ message: 'Missing userId' });
         if (!title) res.status(400).json({ message: 'Missing title' });
         if (!description) res.status(400).json({ message: 'Missing description' });
         if (!image) res.status(400).json({ message: 'Missing image path' });
         if (!businessShortCode) res.status(400).json({ message: 'Missing business short code' });
         if (!goalAmount) res.status(400).json({ message: 'Missing goal amount' });
-
         try {
             const existingUser = await client.db().collection('users').findOne<User>({
                 _id: new ObjectId(userId as string)
@@ -73,8 +134,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             if (existingUser) {
                 const existingProject = await client.db().collection('projects').findOne<Project>({
                     $or: [
-                        { title: title as string},
-                        { description: description as string}
+                        { title: title as string },
+                        { description: description as string }
                     ]
                 });
                 if (!existingProject) {
@@ -102,12 +163,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     res.status(404).json({ message: 'Project already exists' });
                 }
             } else {
-                res.status(400).json({ message: 'User does not exist'})
+                res.status(400).json({ message: 'User does not exist' })
             }
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
-    } else if (req.method === 'PUT') {
+    }
+    else if (req.method === 'PUT') {
         const { projectId } = req.query;
         const { status } = req.body;
         if (!projectId) res.status(400).json({ message: 'Missing projectId' });
@@ -141,7 +203,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     } else if (req.method === 'DELETE') {
         const { projectId } = req.query;
         if (!projectId) res.status(400).json({ message: 'Missing projectId' });
-        try { 
+        try {
             await client.db().collection('projects').deleteOne({
                 _id: new ObjectId(projectId as string)
             });
@@ -157,5 +219,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
     }
 }
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
 
 export default handler;

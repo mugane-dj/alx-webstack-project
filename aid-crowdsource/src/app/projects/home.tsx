@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, CardMedia, Grid,  Stack, TextField, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+
 
 
 
@@ -111,7 +112,7 @@ export const ProjectsComponent = () => {
                             </DialogContent>
                             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button variant="contained" type="submit">Submit</Button>
-                                <Button onClick={closeModal}>Cancel</Button>
+                                <Button onClick={closeModal}>Close</Button>
                             </DialogActions>
                         </form>
                     </Dialog>
@@ -126,11 +127,11 @@ export const ProjectsComponent = () => {
 const makeADonation = (projectId: any) => async (formSubmit: React.FormEvent<HTMLFormElement>) => {
     formSubmit.preventDefault();
     const fd = new FormData(formSubmit.currentTarget);
-        var object: any = {};
-        fd.forEach(function (value, key) {
-            object[key] = value;
-        });
-  console.log(JSON.stringify(object), 'donationObject')
+    var object: any = {};
+    fd.forEach(function (value, key) {
+        object[key] = value;
+    });
+    console.log(JSON.stringify(object), 'donationObject')
 
     try {
         const response = await fetch(`api/v1/payments/createPayment?projectId=${projectId}`, {
@@ -145,18 +146,9 @@ const makeADonation = (projectId: any) => async (formSubmit: React.FormEvent<HTM
         if (res.status === 200) {
             const data = await response.json();
             console.log(data, 'success')
-        } 
-        // else if (response.status === 400) {
-        //     const errorData = await response.json();
-        //     console.log('M-Pesa API Error:', errorData); // Log the error details
-        //     res.status(400).json({ message: errorData.message });
-        // } else {
-        //     console.log('Unexpected Response:', response.status, response.statusText);
-        //     res.status(response.status).json({ message: response.statusText });
-        // }   
-     } catch (error) {
+        }  
+    } catch (error) {
         console.log(error, 'donation error');
-        // alert('failed to send donation');
     }
 
 }

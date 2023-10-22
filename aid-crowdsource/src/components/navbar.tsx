@@ -16,6 +16,7 @@ import { Modal, Stack, TextField } from '@mui/material';
 import { User, UserFrontend } from '../../pages/interfaces/IUser';
 import axios from 'axios';
 
+
 const pages = ['Home'];
 const settings = ['Profile', 'Logout'];
 const style = {
@@ -34,7 +35,7 @@ function ResponsiveAppBar() {
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('')
-    const [image, setImage] = React.useState('');
+    const [file, setFile] = React.useState('');
     const [imagUrl, setImagUrl] = React.useState('')
     const businessShortCode = '174379';
     const [userId, setUserId] = React.useState('')
@@ -64,40 +65,37 @@ function ResponsiveAppBar() {
     console.log(user, user.id, 'loggedin')
 
     const handleImageChange = (event: any) => {
-        const file = event.target.files[0];
-        // console.log(file, 'file')
-        setImage(file);
-        setImageUrl(URL.createObjectURL(file))
-
-        // return image
-
+        const image = event.target.files[0];
+        setFile(image);
+        setImageUrl(URL.createObjectURL(image))
     };
     const createAProject = async (submit: React.FormEvent<HTMLFormElement>) => {
         submit.preventDefault()
-         try {
+        try {
             //Notice that when the FormData object is converted to an array, it stores a two-dimensional array.
             const formData = new FormData();
             formData.append('title', title)
             formData.append('description', description);
-            formData.append('image', image);
+            formData.append('image', file);
             formData.append('businessShortCode', businessShortCode);
             formData.append('goalAmount', goalAmount);
             console.log(formData, 'fd');
             console.log(Array.from(formData), 'arrayFrom');
-           
-        const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
-            method: 'POST',
-            body: formData,
-        });
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data, 'projects response data');
-        } else {
-            console.error('Error creating a project:', response.status);
+            console.log(user.id, 'userId');
+
+            const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
+                method: "POST",
+                body: formData,
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data, 'projects response data');
+            } else {
+                console.error('Error creating a project:', response.status);
+            }
+        } catch (error) {
+            console.error('Error creating a project', error);
         }
-    } catch (error) {
-        console.error('Error creating a project', error);
-    }
     }
 
     return (
@@ -250,7 +248,7 @@ function ResponsiveAppBar() {
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Image</Typography>
-                            <input type='file' name='image' onChange={handleImageChange} />
+                            <input type='file' name='file' onChange={handleImageChange} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>Business ShortCode</Typography>
