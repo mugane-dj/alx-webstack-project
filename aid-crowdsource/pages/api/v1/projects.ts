@@ -4,8 +4,7 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { promises as fs } from 'fs'
-import { parseForm, } from '../../../lib/parse-form';
+
 import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import path from 'path';

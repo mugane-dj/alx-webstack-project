@@ -13,12 +13,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import mainTheme from '../theme';
 import { Modal, Stack, TextField } from '@mui/material';
-import { User, UserFrontend } from '../../pages/interfaces/IUser';
-import axios from 'axios';
+import { UserFrontend } from '../../pages/interfaces/IUser';
+
 
 
 const pages = ['Home'];
-const settings = ['Profile', 'Logout'];
+const settings = [ 'Logout'];
 const style = {
     position: 'absolute' as 'absolute',
     top: '40%',
@@ -26,7 +26,7 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -36,9 +36,7 @@ function ResponsiveAppBar() {
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('')
     const [file, setFile] = React.useState('');
-    const [imagUrl, setImagUrl] = React.useState('')
     const businessShortCode = '174379';
-    const [userId, setUserId] = React.useState('')
     const [goalAmount, setGoalAmount] = React.useState('');
     const [imageUrl, setImageUrl] = React.useState('');
 
@@ -63,6 +61,7 @@ function ResponsiveAppBar() {
     };
     const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
     console.log(user, user.id, 'loggedin')
+    const userId = user.id;
 
     const handleImageChange = (event: any) => {
         const image = event.target.files[0];
@@ -84,12 +83,6 @@ function ResponsiveAppBar() {
             console.log(user.id, 'userId');
             console.log(formData.get('image'), 'image')
 
-            // const res = axios.post(`/api/v1/projects?userId=${user.id}`, formData, {
-            //     headers: {
-            //       'Content-Type': 'multipart/form-data'
-            //     }
-            // });
-            // console.log(res, 'projects create res');
 
             const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
                 method: "POST",
@@ -105,6 +98,7 @@ function ResponsiveAppBar() {
             console.error('Error creating a project', error);
         }
     }
+
 
     return (
         <AppBar position="static" sx={{ backgroundColor: mainTheme.palette.primary.light }}>
@@ -204,11 +198,10 @@ function ResponsiveAppBar() {
                             Create A Project
                         </Button>
                     </Box>
-
-                    <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
+                    <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="" />
+                                <Avatar sx={{marginLeft: '10px'}}>{user.username.charAt(0).toUpperCase()}</Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -234,6 +227,9 @@ function ResponsiveAppBar() {
                             ))}
                         </Menu>
                     </Box>
+
+                    {/* <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
+                        </Box> */}
                 </Toolbar>
             </Container>
             <Modal
@@ -245,7 +241,7 @@ function ResponsiveAppBar() {
 
                 <Box sx={style} >
                     <form onSubmit={createAProject} encType="multipart/form-data">
-                        <Typography variant={'h6'} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
+                        <Typography variant={'h6'} marginBottom={3} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Title</Typography>
                             <TextField variant='outlined' name='title' value={title} sx={{ width: '100%' }} onChange={(e) => setTitle(e.target.value)} />
@@ -266,9 +262,9 @@ function ResponsiveAppBar() {
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
                             <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
-                        {/* <input type="text" name="userId" value={(JSON.parse(localStorage.getItem('user')!) as UserFrontend)._id}  /> */}
-
-                        <Button type='submit'>Submit</Button>
+                        <Stack direction={'column'}marginTop={3} marginBottom={1} sx={{justifyContent: 'center'}}>
+                        <Button variant={'contained'}  type='submit' >Submit</Button>
+                        </Stack>
                     </form>
                 </Box>
             </Modal>

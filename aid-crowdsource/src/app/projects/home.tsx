@@ -8,7 +8,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Image from "next/image";
 import path from "path";
 
 
@@ -19,7 +18,7 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -66,6 +65,17 @@ export const ProjectsComponent = () => {
         }
     }
 
+    function capitalizeFirstLetter(sentence: string) {
+        if (sentence.length === 0) {
+          return sentence; // Handle empty input
+        }
+        
+        const firstLetter = sentence[0].toUpperCase();
+        const restOfSentence = sentence.slice(1);
+        
+        return firstLetter + restOfSentence;
+      }
+
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
         {projects.map((project, i) => {
@@ -91,17 +101,20 @@ export const ProjectsComponent = () => {
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
                             <CardContent sx={{}}>
-                                <Stack direction={'row'}>
-                                    <Typography component={'div'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
+                                <Stack direction={'row'} sx={{justifyContent: 'space-between'}}>
+                                    <Typography sx={{marginBottom: '15px'}}
+                                    component={'div'} textTransform={'capitalize'}  variant={'h6'} color={mainTheme.palette.primary.contrastText}>
                                         {project.title}
                                     </Typography>
-                                    <Button variant={'contained'} onClick={() => deleteAproject(project._id)}>DELETE</Button>
+                                    <Button sx={{width: '70px', height: '30px', textTransform: 'none'}}
+                                    variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>
                                 </Stack>
-                                <Typography variant={'subtitle2'} color="text.secondary" component={'div'}>
-                                    {project.description}
+                                <Typography sx={{lineHeight: '20px', marginBottom: '15px'}}
+                                variant={'subtitle1'} color="text.secondary" component={'div'}>
+                                    {capitalizeFirstLetter(project.description)}
                                 </Typography>
                                 <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Stack direction={'column'}>
+                                    <Stack direction={'column'} marginRight={2}>
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
                                             Goal Amount: Ksh {project.goalAmount}
                                         </Typography>
@@ -118,7 +131,7 @@ export const ProjectsComponent = () => {
                         </Box>
                     </Card>
                     <Dialog open={open} onClose={closeModal}>
-                        <DialogTitle>{`Sub ${project._id}`} Make a Donation Form</DialogTitle>
+                    <Typography variant={'h6'} marginTop={2} marginBottom={1} color={mainTheme.palette.primary.main} textAlign={'center'}>Make A Donation Form</Typography>
                         <form onSubmit={makeADonation(project._id)}>
                             <DialogContent>
                                 <TextField
