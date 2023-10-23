@@ -4,36 +4,11 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
 import { NextApiRequest, NextApiResponse } from 'next';
-import formidable, { Fields, Files, errors as formidableErrors } from 'formidable';
-import { promises as fs } from 'fs'
-import http from 'node:http';
-import { parseForm } from '../../../lib/parse-form';
-
-
-
-// import nextConnect from 'next-connect';
-
-// const fileStorage = multer.diskStorage({
-//     destination: 'aid-crowdsource/public/Images',
-//     filename: (req, file, cb) => cb(null, file.originalname),
-// })
-
-// const options = {
-//     filename: undefined,
-//     // uploadDir: os.tmpdir(),
-
-// }
-
-
-
-// interface FileObject {
-//     filepath: string;
-//   }
-  
-
-
-// var mv = require('mv');
-
+// import { promises as fs } from 'fs'
+import { parseForm, } from '../../../lib/parse-form';
+import { IncomingForm } from 'formidable';
+import fs from 'fs';
+import path from 'path';
 
 
 const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res: NextApiResponse) => {
@@ -87,89 +62,93 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
             }
         }
 
-    }
-    else if (req.method === 'POST') {
-        // try {
-        //     const { fields, files } = await parseForm(req);
-
-        //     console.log({ fields, files })
-        //     interface FileObject {
-        //         filepath: string;
-        //       }
-            
-        //       // Get the 'media' property from files
-        //       const file = files.media;
-
-        //       console.log('filey', file);
-            
-        //       // Now you can work with the file variable
-        //     //   let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.
-
-
-        // } catch (e) {
-        //     if (e) {
-        //         (console.log(e, 'formidable errors'))
-        //     } else {
-        //         console.error(e);
-        //         res.status(500).json({ data: null, error: "Internal Server Error" });
-        //     }
-        // }
-
-
+    } else if (req.method === 'POST') {
         const { userId } = req.query;
-        // console.log(userId, 'uid')
-
-        const { title, description, businessShortCode, image, goalAmount } = req.body;
-        // console.log(req.body, "images backend")
         if (!userId) res.status(400).json({ message: 'Missing userId' });
-        if (!title) res.status(400).json({ message: 'Missing title' });
-        if (!description) res.status(400).json({ message: 'Missing description' });
-        if (!image) res.status(400).json({ message: 'Missing image path' });
-        if (!businessShortCode) res.status(400).json({ message: 'Missing business short code' });
-        if (!goalAmount) res.status(400).json({ message: 'Missing goal amount' });
-        try {
-            const existingUser = await client.db().collection('users').findOne<User>({
-                _id: new ObjectId(userId as string)
-            });
-            if (existingUser) {
-                const existingProject = await client.db().collection('projects').findOne<Project>({
-                    $or: [
-                        { title: title as string },
-                        { description: description as string }
-                    ]
-                });
-                if (!existingProject) {
-                    const project = await client.db().collection('projects').insertOne({
-                        title,
-                        description,
-                        image,
-                        businessShortCode,
-                        status: ProjectStatus.PendingApproval,
-                        goalAmount: parseInt(goalAmount as string, 10),
-                        createdAt: new Date(Date.now()),
-                        updatedAt: null
-                    });
-                    await client.db().collection('users').updateOne({
-                        _id: new ObjectId(userId as string)
-                    }, {
-                        $push: {
-                            projects: project.insertedId
-                        }
-                    });
-                    await redisClient.del(`user-${userId}`);
-                    await redisClient.del('projects');
-                    res.status(201).json({ message: `Project created successfully with id: ${project.insertedId.toString()}` });
-                } else {
-                    res.status(404).json({ message: 'Project already exists' });
-                }
-            } else {
-                res.status(400).json({ message: 'User does not exist' })
+        const form = new IncomingForm();
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: 'Error parsing form data' });
+                return;
             }
-        } catch (error: any) {
-            res.status(500).json({ message: error.message });
-        }
-    }
-    else if (req.method === 'PUT') {
+
+            // Access the form data fields and files here
+            const { title, description, businessShortCode, goalAmount } = fields;
+            const projectTitle = Array.isArray(title) ? title[0] : title;
+            const projectDescription = Array.isArray(description) ? description[0] : description;
+            const projectBusinessShortCode = Array.isArray(businessShortCode) ? businessShortCode[0] : businessShortCode;
+            const projectGoalAmount = Array.isArray(goalAmount) ? goalAmount[0] : goalAmount;
+            const filesArray = Object.values(files);
+            const image = filesArray[0];
+            if (!projectTitle) res.status(400).json({ message: 'Missing title' });
+            if (!projectDescription) res.status(400).json({ message: 'Missing description' });
+            if (!image) res.status(400).json({ message: 'Missing image' });
+            if (!projectBusinessShortCode) res.status(400).json({ message: 'Missing business short code' });
+            if (!projectGoalAmount) res.status(400).json({ message: 'Missing goal amount' });
+            console.log(projectTitle, projectDescription, projectBusinessShortCode, projectGoalAmount, image, 'fields')
+            try {
+                const existingUser = await client.db().collection('users').findOne<User>({
+                    _id: new ObjectId(userId as string)
+                });
+                if (existingUser) {
+                    const existingProject = await client.db().collection('projects').findOne<Project>({
+                        $or: [
+                            { title: projectTitle },
+                            { description: projectDescription },
+                        ]
+                    });
+
+
+                    if (!existingProject) {
+                        const uploadDir = path.join(process.cwd(), 'public', 'Images');
+
+                        console.log(uploadDir, 'upd')
+
+                        if (!fs.existsSync(uploadDir)) {
+                            fs.mkdirSync(uploadDir, { recursive: true });
+                        }
+                        const uniqueSuffix = new Date().toISOString().replace(/[-:]/g, '');
+                        const filename = `image_${uniqueSuffix}.jpg`; // You can change the extension if needed
+                        if (!image) {
+                            res.status(400).json({ message: 'Missing image' });
+                            return;
+                        }
+                        const imagePath = path.join(uploadDir, filename);
+                        fs.renameSync(image[0].filepath, imagePath);
+
+                        const project = await client.db().collection('projects').insertOne({
+                            title: projectTitle,
+                            description: projectDescription,
+                            image: imagePath,
+                            businessShortCode: projectBusinessShortCode,
+                            status: ProjectStatus.Approved,
+                            goalAmount: parseInt(projectGoalAmount as string, 10),
+                            createdAt: new Date(Date.now()),
+                            updatedAt: null,
+                            _id: new ObjectId()
+                        });
+                        await client.db().collection('users').updateOne({
+                            _id: new ObjectId(userId as string)
+                        }, {
+                            $push: {
+                                projects: project.insertedId
+                            }
+                        });
+                        await redisClient.del(`user-${userId}`);
+                        await redisClient.del('projects');
+                        res.status(201).json({ message: `Project created successfully with id: ${project.insertedId.toString()}` });
+                    } else {
+                        res.status(400).json({ message: 'Project already exists' });
+                    }
+                } else {
+                    res.status(400).json({ message: 'User does not exist' })
+                }
+            } catch (error: any) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    } else if (req.method === 'PUT') {
         const { projectId } = req.query;
         const { status } = req.body;
         if (!projectId) res.status(400).json({ message: 'Missing projectId' });

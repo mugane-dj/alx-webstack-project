@@ -8,8 +8,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-
-
+import Image from "next/image";
+import path from "path";
 
 
 const style = {
@@ -26,6 +26,7 @@ const style = {
 
 export const ProjectsComponent = () => {
     const [open, setOpen] = React.useState(false);
+    const [shown, setShown] = useState(false);
     const [projects, setProjects] = useState<Project[]>([])
     const [amount, setAmount] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -51,34 +52,65 @@ export const ProjectsComponent = () => {
         }
     }
 
+    const deleteAproject = async (projectId: any) => {
+        try {
+            const response = await fetch(`api/v1/projects?projectId=${projectId}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            console.log(data, 'deleteProjectsData');
+            alert('projcect sucessfully deleted')
+        } catch (error) {
+            console.log('error deletig projects')
+
+        }
+    }
+
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
-        {
-            projects.map((project, i) =>
+        {projects.map((project, i) => {
+            const filePath = project.image;
+            console.log(filePath, 'filePath')
+            let ffilePath = filePath.split(path.sep);
+            let pathy = "Path = " + ffilePath;
+            let setPath = pathy.replace(/^.*[\\\/]/, '');
+            console.log(setPath, 'stPath')
+
+            console.log(pathy.replace(/^.*[\\\/]/, ''), 'pathy');
+
+
+            return (
                 <Grid item xs={12} md={6} key={i}>
                     <Card sx={{ display: 'flex' }}>
                         <CardMedia
                             component="img"
                             sx={{ width: '45%' }}
-                            image="/Images/Rectangle 6.png"
+                            loading="lazy"
+                            src={`/Images/${setPath}`}             
                             alt="Project photo"
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
                             <CardContent sx={{}}>
-                                <Typography component={'div'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
-                                    {project.title}
-                                </Typography>
+                                <Stack direction={'row'}>
+                                    <Typography component={'div'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
+                                        {project.title}
+                                    </Typography>
+                                    <Button variant={'contained'} onClick={() => deleteAproject(project._id)}>DELETE</Button>
+                                </Stack>
                                 <Typography variant={'subtitle2'} color="text.secondary" component={'div'}>
                                     {project.description}
                                 </Typography>
                                 <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Stack direction={'column'}>
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
-                                            Goal Amount: Ksh {project.goalAmount}</Typography>
-                                        <Typography variant={'body2'} component={'div'}>Amount Raised: Ksh 5,000  </Typography>
+                                            Goal Amount: Ksh {project.goalAmount}
+                                        </Typography>
+                                        <Typography variant={'body2'} component={'div'}>
+                                            Amount Raised: Ksh 5,000
+                                        </Typography>
                                     </Stack>
                                     <Stack direction={'column'}>
-                                        <Button onClick={handleOpen}>DonateNow<ArrowForward sx={{ marginLeft: '7px' }} />
+                                        <Button onClick={handleOpen}>Donate Now<ArrowForward sx={{ marginLeft: '7px' }} />
                                         </Button>
                                     </Stack>
                                 </Stack>
@@ -86,7 +118,7 @@ export const ProjectsComponent = () => {
                         </Box>
                     </Card>
                     <Dialog open={open} onClose={closeModal}>
-                        <DialogTitle>{`Sub ${project._id}`}Make a Donation Form</DialogTitle>
+                        <DialogTitle>{`Sub ${project._id}`} Make a Donation Form</DialogTitle>
                         <form onSubmit={makeADonation(project._id)}>
                             <DialogContent>
                                 <TextField
@@ -94,7 +126,7 @@ export const ProjectsComponent = () => {
                                     margin="dense"
                                     name="phoneNumber"
                                     value={phoneNumber}
-                                    onChange={(e) => (setPhoneNumber(e.target.value))}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
                                     label="Phone Number"
                                     fullWidth
                                     variant="standard"
@@ -105,23 +137,23 @@ export const ProjectsComponent = () => {
                                     name="amount"
                                     label="Amount"
                                     value={amount}
-                                    onChange={(e) => (setAmount(e.target.value))}
+                                    onChange={(e) => setAmount(e.target.value)}
                                     fullWidth
                                     variant="standard"
                                 />
                             </DialogContent>
                             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button variant="contained" type="submit">Submit</Button>
+                                <Button variant="contained" type="submit">
+                                    Submit
+                                </Button>
                                 <Button onClick={closeModal}>Close</Button>
                             </DialogActions>
                         </form>
                     </Dialog>
                 </Grid>
-
-
-            )};
-
-    </Grid >
+            );
+        })}
+    </Grid>
 }
 
 const makeADonation = (projectId: any) => async (formSubmit: React.FormEvent<HTMLFormElement>) => {
@@ -146,7 +178,7 @@ const makeADonation = (projectId: any) => async (formSubmit: React.FormEvent<HTM
         if (res.status === 200) {
             const data = await response.json();
             console.log(data, 'success')
-        }  
+        }
     } catch (error) {
         console.log(error, 'donation error');
     }

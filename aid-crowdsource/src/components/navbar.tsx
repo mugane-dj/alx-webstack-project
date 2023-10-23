@@ -82,6 +82,14 @@ function ResponsiveAppBar() {
             console.log(formData, 'fd');
             console.log(Array.from(formData), 'arrayFrom');
             console.log(user.id, 'userId');
+            console.log(formData.get('image'), 'image')
+
+            // const res = axios.post(`/api/v1/projects?userId=${user.id}`, formData, {
+            //     headers: {
+            //       'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+            // console.log(res, 'projects create res');
 
             const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
                 method: "POST",
@@ -248,7 +256,7 @@ function ResponsiveAppBar() {
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Image</Typography>
-                            <input type='file' name='file' onChange={handleImageChange} />
+                            <input type='file' name='image' onChange={handleImageChange} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>Business ShortCode</Typography>

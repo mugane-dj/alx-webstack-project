@@ -4,8 +4,6 @@ import fs from 'fs';
 import path from 'path';
 
 
-
-
 export const parseForm = async (
   req: NextApiRequest
 ): Promise<{ fields: formidable.Fields; files: formidable.Files }> => {
@@ -23,11 +21,13 @@ export const parseForm = async (
     const form = formidable({
       maxFiles: 1,
       uploadDir,      
-      filename: (_name, _ext, part) => {
+      filename: (_name, _ext, part,) => {
         // Generate a unique filename
         const uniqueSuffix = new Date().toISOString().replace(/[-:]/g, '');
-        const filename = `image_${uniqueSuffix}.jpg`; // You can change the extension if needed
+        const filename = `image_${uniqueSuffix}.${_ext}`; // You can change the extension if needed
         image = path.join(uploadDir, filename);
+
+        console.log(image, 'image');
     
         // Save the file to the destination path
         part.pipe(fs.createWriteStream(image));
@@ -45,10 +45,20 @@ export const parseForm = async (
       },
     });
 
+    // form.on('file', function(field, file) {
+    //     form.emit('data', {
+    //         name: 'file', value: file,
+    //         formname: undefined
+    //     });
+    //     // console.log(file.originalFilename, 'filename');
+    //     // files.push([field, file]);
+    // })
+
 
    form.parse(req, function (err, fields, files) {
       if (err) {
         reject(err);
+        console.error(err, 'error in form parsing')
       } else {
         const newFields = { ...fields, image };
         resolve({ fields: newFields, files });
