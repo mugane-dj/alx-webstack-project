@@ -7,7 +7,6 @@ import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import path from "path";
 
 
@@ -25,7 +24,6 @@ const style = {
 
 export const ProjectsComponent = () => {
     const [open, setOpen] = React.useState(false);
-    const [shown, setShown] = useState(false);
     const [projects, setProjects] = useState<Project[]>([])
     const [amount, setAmount] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -57,8 +55,9 @@ export const ProjectsComponent = () => {
                 method: 'DELETE'
             });
             const data = await response.json();
+            alert('project sucessfully deleted')
             console.log(data, 'deleteProjectsData');
-            alert('projcect sucessfully deleted')
+            // alert('project sucessfully deleted')
         } catch (error) {
             console.log('error deletig projects')
 
@@ -76,17 +75,45 @@ export const ProjectsComponent = () => {
         return firstLetter + restOfSentence;
       }
 
+      const makeADonation = (projectId: any) => async (formSubmit: React.FormEvent<HTMLFormElement>) => {
+        formSubmit.preventDefault();
+        const fd = new FormData(formSubmit.currentTarget);
+        var object: any = {};
+        fd.forEach(function (value, key) {
+            object[key] = value;
+        });
+        console.log(JSON.stringify(object), 'donationObject')
+        try {
+            const response = await fetch(`api/v1/payments/createPayment?projectId=${projectId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(object),
+            });
+            const res = await response.json();
+            console.log(res, 'create donation response')
+            if (res.status === 200) {
+                const data = await response.json();
+                console.log(data, 'success')
+            }
+        } catch (error) {
+            console.log(error, 'donation error');
+        }
+    
+    }
+
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
         {projects.map((project, i) => {
             const filePath = project.image;
-            console.log(filePath, 'filePath')
+            // console.log(filePath, 'filePath')
             let ffilePath = filePath.split(path.sep);
             let pathy = "Path = " + ffilePath;
             let setPath = pathy.replace(/^.*[\\\/]/, '');
-            console.log(setPath, 'stPath')
+            // console.log(setPath, 'stPath')
 
-            console.log(pathy.replace(/^.*[\\\/]/, ''), 'pathy');
+            // console.log(pathy.replace(/^.*[\\\/]/, ''), 'pathy');
 
 
             return (
@@ -169,31 +196,3 @@ export const ProjectsComponent = () => {
     </Grid>
 }
 
-const makeADonation = (projectId: any) => async (formSubmit: React.FormEvent<HTMLFormElement>) => {
-    formSubmit.preventDefault();
-    const fd = new FormData(formSubmit.currentTarget);
-    var object: any = {};
-    fd.forEach(function (value, key) {
-        object[key] = value;
-    });
-    console.log(JSON.stringify(object), 'donationObject')
-
-    try {
-        const response = await fetch(`api/v1/payments/createPayment?projectId=${projectId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(object)
-        });
-        const res = await response.json();
-        console.log(res, 'create donation response')
-        if (res.status === 200) {
-            const data = await response.json();
-            console.log(data, 'success')
-        }
-    } catch (error) {
-        console.log(error, 'donation error');
-    }
-
-}
