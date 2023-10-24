@@ -1,3 +1,4 @@
+// Integrated service status
 import { NextApiRequest, NextApiResponse } from 'next';
 import redisClient from '../../../lib/redis';
 import clientPromise from '../../../lib/mongodb';
