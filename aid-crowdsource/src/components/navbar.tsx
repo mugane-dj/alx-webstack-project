@@ -18,7 +18,7 @@ import { UserFrontend } from '../../pages/interfaces/IUser';
 
 
 const pages = ['Home'];
-const settings = [ 'Logout'];
+const settings = ['Logout'];
 const style = {
     position: 'absolute' as 'absolute',
     top: '40%',
@@ -26,7 +26,6 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    // border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -61,7 +60,6 @@ function ResponsiveAppBar() {
     };
     const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
     console.log(user, user.id, 'loggedin')
-    const userId = user.id;
 
     const handleImageChange = (event: any) => {
         const image = event.target.files[0];
@@ -90,6 +88,7 @@ function ResponsiveAppBar() {
             });
             if (response.ok) {
                 const data = await response.json();
+                alert('Project Created Sucessfully')
                 console.log(data, 'projects response data');
             } else {
                 console.error('Error creating a project:', response.status);
@@ -201,7 +200,7 @@ function ResponsiveAppBar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar sx={{marginLeft: '10px'}}>{user.username.charAt(0).toUpperCase()}</Avatar>
+                                <Avatar sx={{ marginLeft: '10px' }}>{user.username.charAt(0).toUpperCase()}</Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -220,16 +219,14 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
+                            <Button href='/login' sx={{textTransform: 'none'}}>Logout</Button>
+                            {/* {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                    <Typography  textAlign="center">{setting}</Typography>
                                 </MenuItem>
-                            ))}
+                            ))} */}
                         </Menu>
                     </Box>
-
-                    {/* <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
-                        </Box> */}
                 </Toolbar>
             </Container>
             <Modal
@@ -262,8 +259,9 @@ function ResponsiveAppBar() {
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
                             <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
-                        <Stack direction={'column'}marginTop={3} marginBottom={1} sx={{justifyContent: 'center'}}>
-                        <Button variant={'contained'}  type='submit' >Submit</Button>
+                        <Stack direction={'row'} marginTop={3} marginBottom={1} sx={{ justifyContent: 'space-between' }}>
+                            <Button variant={'contained'} type='submit' >Submit</Button>
+                            <Button sx={{ color: mainTheme.palette.primary.main }} onClick={handleClose}>Cancel</Button>
                         </Stack>
                     </form>
                 </Box>
