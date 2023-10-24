@@ -1,6 +1,6 @@
 "use client"
 
-import { Head } from "next/document";
+import  Head from "next/head";
 import React, { useState } from "react";
 import mainTheme from "../src/theme";
 import { Toaster } from "react-hot-toast";

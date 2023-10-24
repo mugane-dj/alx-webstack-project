@@ -13,9 +13,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import mainTheme from '../theme';
 import { Modal, Stack, TextField } from '@mui/material';
+import { UserFrontend } from '../../pages/interfaces/IUser';
+
+
 
 const pages = ['Home'];
-const settings = ['Profile', 'Logout'];
+const settings = ['Logout'];
 const style = {
     position: 'absolute' as 'absolute',
     top: '40%',
@@ -23,13 +26,19 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
 function ResponsiveAppBar() {
     const [open, setOpen] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [description, setDescription] = React.useState('')
+    const [file, setFile] = React.useState('');
+    const businessShortCode = '174379';
+    const [goalAmount, setGoalAmount] = React.useState('');
+    const [imageUrl, setImageUrl] = React.useState('');
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -49,6 +58,46 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
+    console.log(user, user.id, 'loggedin')
+
+    const handleImageChange = (event: any) => {
+        const image = event.target.files[0];
+        setFile(image);
+        setImageUrl(URL.createObjectURL(image))
+    };
+    const createAProject = async (submit: React.FormEvent<HTMLFormElement>) => {
+        submit.preventDefault()
+        try {
+            //Notice that when the FormData object is converted to an array, it stores a two-dimensional array.
+            const formData = new FormData();
+            formData.append('title', title)
+            formData.append('description', description);
+            formData.append('image', file);
+            formData.append('businessShortCode', businessShortCode);
+            formData.append('goalAmount', goalAmount);
+            console.log(formData, 'fd');
+            console.log(Array.from(formData), 'arrayFrom');
+            console.log(user.id, 'userId');
+            console.log(formData.get('image'), 'image')
+
+
+            const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
+                method: "POST",
+                body: formData,
+            });
+            if (response.ok) {
+                const data = await response.json();
+                alert('Project Created Sucessfully')
+                console.log(data, 'projects response data');
+            } else {
+                console.error('Error creating a project:', response.status);
+            }
+        } catch (error) {
+            console.error('Error creating a project', error);
+        }
+    }
+
 
     return (
         <AppBar position="static" sx={{ backgroundColor: mainTheme.palette.primary.light }}>
@@ -64,7 +113,6 @@ function ResponsiveAppBar() {
                             display: { xs: 'none', md: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
-                            // letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -149,11 +197,10 @@ function ResponsiveAppBar() {
                             Create A Project
                         </Button>
                     </Box>
-
-                    <Box sx={{ flexGrow: 0, marginLeft: '10px' }}>
+                    <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar sx={{ marginLeft: '10px' }}>{user.username.charAt(0).toUpperCase()}</Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -172,11 +219,12 @@ function ResponsiveAppBar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
+                            <Button href='/login' sx={{textTransform: 'none'}}>Logout</Button>
+                            {/* {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                    <Typography  textAlign="center">{setting}</Typography>
                                 </MenuItem>
-                            ))}
+                            ))} */}
                         </Menu>
                     </Box>
                 </Toolbar>
@@ -187,31 +235,34 @@ function ResponsiveAppBar() {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+
                 <Box sx={style} >
-                    <form>
-                        <Typography  variant={'h6'} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
+                    <form onSubmit={createAProject} encType="multipart/form-data">
+                        <Typography variant={'h6'} marginBottom={3} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
                         <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Name Of Project</Typography>
-                            <TextField variant='outlined' sx={{ width: '100%' }} />
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Title</Typography>
+                            <TextField variant='outlined' name='title' value={title} sx={{ width: '100%' }} onChange={(e) => setTitle(e.target.value)} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Description</Typography>
-                            <TextField variant='outlined' multiline sx={{ width: '100%' }} />
+                            <TextField variant='outlined' name='description' value={description} multiline sx={{ width: '100%' }} onChange={(e) => setDescription(e.target.value)} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Image</Typography>
-                            <input type='file' name='image'/>
+                            <input type='file' name='image' onChange={handleImageChange} />
+                        </Stack>
+                        <Stack direction={'column'} marginBottom={1}>
+                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>Business ShortCode</Typography>
+                            <input name="businessshortcode" value={businessShortCode} readOnly />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1}>
                             <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
-                            <TextField variant='outlined' multiline sx={{ width: '100%' }} />
+                            <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
-
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}mb={0.5}>Business ShortCode</Typography>
-                            <input name="businessshortcode" value={'174379'} />
+                        <Stack direction={'row'} marginTop={3} marginBottom={1} sx={{ justifyContent: 'space-between' }}>
+                            <Button variant={'contained'} type='submit' >Submit</Button>
+                            <Button sx={{ color: mainTheme.palette.primary.main }} onClick={handleClose}>Cancel</Button>
                         </Stack>
-
                     </form>
                 </Box>
             </Modal>
