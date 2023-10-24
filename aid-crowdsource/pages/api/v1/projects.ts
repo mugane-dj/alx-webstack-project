@@ -6,9 +6,7 @@ import redisClient from '../../../lib/redis';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { IncomingForm } from 'formidable';
-import fs from 'fs';
-import path from 'path';
-import { cwd } from 'process';
+import s3Upload from '../../utils/s3Upload';
 
 
 const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res: NextApiResponse) => {
@@ -80,10 +78,9 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
             const projectBusinessShortCode = Array.isArray(businessShortCode) ? businessShortCode[0] : businessShortCode;
             const projectGoalAmount = Array.isArray(goalAmount) ? goalAmount[0] : goalAmount;
             const filesArray = Object.values(files);
-            const image = filesArray[0];
+            
             if (!projectTitle) res.status(400).json({ message: 'Missing title' });
             if (!projectDescription) res.status(400).json({ message: 'Missing description' });
-            if (!image) res.status(400).json({ message: 'Missing image' });
             if (!projectBusinessShortCode) res.status(400).json({ message: 'Missing business short code' });
             if (!projectGoalAmount) res.status(400).json({ message: 'Missing goal amount' });
             try {
@@ -100,25 +97,23 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
 
 
                     if (!existingProject) {
-                        const uploadDir = path.join(process.cwd(), 'public', 'Images');
-                        console.log(uploadDir)
-
-                        if (!fs.existsSync(uploadDir)) {
-                            fs.mkdirSync(uploadDir, { recursive: true });
-                        }
-                        const uniqueSuffix = new Date().toISOString().replace(/[-:]/g, '');
-                        const filename = `image_${uniqueSuffix}.jpg`;
+                        const image = filesArray[0];
                         if (!image) {
                             res.status(400).json({ message: 'Missing image' });
                             return;
                         }
-                        const imagePath = path.join(uploadDir, filename);
-                        fs.renameSync(image[0].filepath, imagePath);
-
+                        const contentType: string | null = image[0].mimetype;
+                        let imageLocation: string | null = null;
+                        try {
+                            imageLocation = await s3Upload(image[0].filepath, image[0].newFilename, contentType as string);
+                        } catch (error: any) {
+                            res.status(500).json({ message: 'Error uploading image' });
+                            return;
+                        }
                         const project = await client.db().collection('projects').insertOne({
                             title: projectTitle,
                             description: projectDescription,
-                            image: imagePath,
+                            image: imageLocation ? imageLocation : '',
                             businessShortCode: projectBusinessShortCode,
                             status: ProjectStatus.Approved,
                             goalAmount: parseInt(projectGoalAmount as string, 10),
