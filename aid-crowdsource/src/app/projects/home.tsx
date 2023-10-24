@@ -21,6 +21,7 @@ const style = {
     p: 4,
 };
 
+
 export const ProjectsComponent = () => {
     const [open, setOpen] = React.useState(false);
     const [projects, setProjects] = useState<Project[]>([])

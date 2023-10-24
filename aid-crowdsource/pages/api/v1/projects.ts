@@ -8,6 +8,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { IncomingForm } from 'formidable';
 import fs from 'fs';
 import path from 'path';
+import { cwd } from 'process';
 
 
 const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res: NextApiResponse) => {
@@ -85,7 +86,6 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
             if (!image) res.status(400).json({ message: 'Missing image' });
             if (!projectBusinessShortCode) res.status(400).json({ message: 'Missing business short code' });
             if (!projectGoalAmount) res.status(400).json({ message: 'Missing goal amount' });
-            console.log(projectTitle, projectDescription, projectBusinessShortCode, projectGoalAmount, image, 'fields')
             try {
                 const existingUser = await client.db().collection('users').findOne<User>({
                     _id: new ObjectId(userId as string)
@@ -101,14 +101,13 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
 
                     if (!existingProject) {
                         const uploadDir = path.join(process.cwd(), 'public', 'Images');
-
-                        console.log(uploadDir, 'upd')
+                        console.log(uploadDir)
 
                         if (!fs.existsSync(uploadDir)) {
                             fs.mkdirSync(uploadDir, { recursive: true });
                         }
                         const uniqueSuffix = new Date().toISOString().replace(/[-:]/g, '');
-                        const filename = `image_${uniqueSuffix}.jpg`; // You can change the extension if needed
+                        const filename = `image_${uniqueSuffix}.jpg`;
                         if (!image) {
                             res.status(400).json({ message: 'Missing image' });
                             return;

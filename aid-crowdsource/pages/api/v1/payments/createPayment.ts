@@ -64,7 +64,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         },
                         body: JSON.stringify(requestBody)
                     });
-                    console.log(response);
                     if (response.status === 200) {
                         const data = await response.json();
                         res.status(200).json(data);
