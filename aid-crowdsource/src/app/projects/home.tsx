@@ -124,11 +124,7 @@ export const ProjectsComponent = () => {
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
         {projects.map((project, i) => {
-            const filePath = project.image;
-            let ffilePath = filePath.split(path.sep);
-            let pathy = "Path = " + ffilePath;
-            let setPath = pathy.replace(/^.*[\\\/]/, '');
-
+            const imageLocation = project.image;
             return (
                 <Grid item xs={12} md={6} key={i}>
                     <Card sx={{ display: 'flex' }}>
@@ -136,7 +132,7 @@ export const ProjectsComponent = () => {
                             component="img"
                             sx={{ width: '40%', height: '100%' }}
                             loading="lazy"
-                            src={`/Images/${setPath}`}
+                            src={`${imageLocation}`}
                             alt="Project photo"
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
