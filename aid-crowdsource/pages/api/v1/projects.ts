@@ -6,7 +6,7 @@ import redisClient from '../../../lib/redis';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { IncomingForm } from 'formidable';
-import s3Upload from '../../utils/s3Upload';
+import s3Upload from '../../../lib/utils/s3Upload';
 
 
 const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res: NextApiResponse) => {
@@ -94,8 +94,6 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
                             { description: projectDescription },
                         ]
                     });
-
-
                     if (!existingProject) {
                         const image = filesArray[0];
                         if (!image) {

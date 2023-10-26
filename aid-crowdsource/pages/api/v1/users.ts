@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import { User } from '../../interfaces/IUser';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
-import hashPass from '../../utils/hashPass';
+import hashPass from '../../../lib/utils/hashPass';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 

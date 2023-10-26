@@ -7,6 +7,7 @@ import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { UserFrontend } from "../../../pages/interfaces/IUser";
 
 
 const style = {
@@ -21,25 +22,30 @@ const style = {
 };
 
 
-export const ProjectsComponent = () => {
+export const MyProjectsComponent = () => {
     const [open, setOpen] = React.useState(false);
     const [projects, setProjects] = useState<Project[]>([])
     const [amount, setAmount] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
+    // const [user, setUser] = useState<User>()
+
+    const loggedInUser = JSON.parse(localStorage.getItem('user')!) as UserFrontend;
+    console.log(loggedInUser, 'myprojects')
+
     const handleOpen = (projectId: any) => {
         // Update the open state for the specified project
         setOpen(true);
         getProjectById(projectId)
     };
+
     const closeModal = () => {
         alert('Donation Made Successfully');
         setOpen(false);
-
     };
 
     useEffect(() => {
-        getAllProjects()
+        getAllUserProjects()
     }, [])
 
 
@@ -57,14 +63,17 @@ export const ProjectsComponent = () => {
     }
 
 
-    const getAllProjects = async () => {
+    const getAllUserProjects = async () => {
         try {
-            const response = await fetch('/api/v1/projects', {
+            const response = await fetch(`/api/v1/projects`, {
                 method: 'GET'
             });
             const data = await response.json();
             setProjects(data as Project[]);
-            console.log(data, 'allProjects')
+
+            const userProjs = projects.filter(project => loggedInUser.projects.includes(project._id));
+            console.log(userProjs, 'us')
+            console.log(data, 'islogged')
         } catch (error) {
             console.log('error fetching projects', error);
         }
@@ -171,7 +180,6 @@ export const ProjectsComponent = () => {
                         <Typography variant={'h6'} marginTop={2} marginBottom={1} color={mainTheme.palette.primary.main} textAlign={'center'}>Make A Donation Form</Typography>
                         <form onSubmit={makeADonation(selectProject?.id)}>
                             <DialogContent>
-                                {/* {selectProject?.id} */}
                                 <TextField
                                     autoFocus
                                     margin="dense"

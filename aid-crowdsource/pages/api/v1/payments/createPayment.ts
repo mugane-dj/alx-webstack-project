@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { ObjectId } from 'mongodb';
-import  auth from '../../../../pages/utils/mpesaAuth';
-import timeStamp from '../../../utils/timeStamp';
+import  auth from '../../../../lib/utils/mpesaAuth';
+import timeStamp from '../../../../lib/utils/timeStamp';
 import { Project } from '../../../interfaces/IProject';
 import clientPromise from '../../../../lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';

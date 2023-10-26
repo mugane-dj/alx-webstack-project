@@ -1,7 +1,7 @@
 import { User } from '../../interfaces/IUser';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
-import hashPassword from '../../utils/hashPass';
+import hashPassword from '../../../lib/utils/hashPass';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 
