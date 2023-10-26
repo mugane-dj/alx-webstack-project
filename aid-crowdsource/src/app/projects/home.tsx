@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, TextField, Typo
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { Project, ProjectFrontend } from "../../../pages/interfaces/IProject";
+import { Project, ProjectFrontend } from "../../interfaces/IProject";
 import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';

@@ -1,4 +1,4 @@
-import { User } from '../../interfaces/IUser';
+import { User } from '../../../src/interfaces/IUser';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
 import hashPassword from '../../../lib/utils/hashPass';

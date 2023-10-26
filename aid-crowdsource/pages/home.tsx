@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import ResponsiveAppBar from "../src/components/navbar";
 import { ProjectsComponent } from "../src/app/projects/home";
 import { Grid } from "@mui/material";
-import { User } from "./interfaces/IUser";
+import { User } from "../src/interfaces/IUser";
 
 const HomePage: NextPage = () => {
     const [isloaded, setIsloaded] = useState(false);

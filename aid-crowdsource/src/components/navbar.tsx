@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import mainTheme from '../theme';
 import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField } from '@mui/material';
-import { UserFrontend } from '../../pages/interfaces/IUser';
+import { UserFrontend } from '../interfaces/IUser';
 import router from 'next/router';
 
 

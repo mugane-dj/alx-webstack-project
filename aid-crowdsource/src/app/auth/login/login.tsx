@@ -6,7 +6,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { interFont, } from "../../../utils/font";
 import { useRouter } from "next/router";
 import PersonIcon from '@mui/icons-material/Person';
-import { User, UserFrontend } from "../../../../pages/interfaces/IUser";
+import { User, UserFrontend } from "../../../interfaces/IUser";
 
 
 

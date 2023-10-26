@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useState, useEffect } from 'react'
 import ResponsiveAppBar from "../src/components/navbar";
 import { Grid } from "@mui/material";
-import { User } from "./interfaces/IUser";
+import { User } from "../src/interfaces/IUser";
 import { MyProjectsComponent } from "../src/app/projects/myprojects";
 
 const MyprojectsPage: NextPage = () => {

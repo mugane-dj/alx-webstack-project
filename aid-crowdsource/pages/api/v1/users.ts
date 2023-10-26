@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { User } from '../../interfaces/IUser';
+import { User } from '../../../src/interfaces/IUser';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
 import hashPass from '../../../lib/utils/hashPass';
