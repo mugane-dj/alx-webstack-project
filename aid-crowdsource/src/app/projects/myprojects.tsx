@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
@@ -70,14 +71,14 @@ export const MyProjectsComponent = () => {
             });
             const data = await response.json();
             setProjects(data as Project[]);
-
-            const userProjs = projects.filter(project => loggedInUser.projects.includes(project._id));
-            console.log(userProjs, 'us')
+            // console.log(userProjs, 'us')
             console.log(data, 'islogged')
         } catch (error) {
             console.log('error fetching projects', error);
         }
     }
+
+    const userProjs = projects.filter(project => loggedInUser.projects.includes(project._id));
 
     const deleteAproject = async (projectId: any) => {
         try {
@@ -131,8 +132,8 @@ export const MyProjectsComponent = () => {
 
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
-        {projects.map((project, i) => {
-            const imageLocation = project.image;
+        {   userProjs.map((userproject, i) => {
+            const imageLocation = userproject.image;
             return (
                 <Grid item xs={12} md={6} key={i}>
                     <Card sx={{ display: 'flex' }}>
@@ -148,26 +149,26 @@ export const MyProjectsComponent = () => {
                                 <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
                                     <Typography sx={{ marginBottom: '15px' }}
                                         component={'div'} textTransform={'capitalize'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
-                                        {project.title}
+                                        {userproject.title}
                                     </Typography>
                                     <Button sx={{ width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.main }}
-                                        variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>
+                                        variant={'contained'} onClick={() => deleteAproject(userproject._id)}>Delete</Button>
                                 </Stack>
                                 <Typography sx={{ lineHeight: '20px', marginBottom: '15px' }}
                                     variant={'subtitle1'} color="text.secondary" component={'div'}>
-                                    {capitalizeFirstLetter(project.description)}
+                                    {capitalizeFirstLetter(userproject.description)}
                                 </Typography>
                                 <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Stack direction={'column'} marginRight={2}>
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
-                                            Goal Amount: Ksh {project.goalAmount}
+                                            Goal Amount: Ksh {userproject.goalAmount}
                                         </Typography>
                                         <Typography variant={'body2'} component={'div'}>
                                             Amount Raised: Ksh 5,000
                                         </Typography>
                                     </Stack>
                                     <Stack direction={'row'}>
-                                        <Button onClick={() => handleOpen(project._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
+                                        <Button onClick={() => handleOpen(userproject._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
                                         </Button>
                                     </Stack>
                                 </Stack>
