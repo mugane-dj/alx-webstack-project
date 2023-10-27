@@ -1,3 +1,4 @@
+// users handler
 import { ObjectId } from 'mongodb';
 import { User } from '../../../src/interfaces/IUser';
 import clientPromise from '../../../lib/mongodb';
