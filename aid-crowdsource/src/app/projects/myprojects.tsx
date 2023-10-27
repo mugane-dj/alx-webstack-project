@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { UserFrontend } from "../../interfaces/IUser";
 
 
+
 const style = {
     position: 'absolute' as 'absolute',
     top: '40%',
@@ -25,14 +26,16 @@ const style = {
 
 export const MyProjectsComponent = () => {
     const [open, setOpen] = React.useState(false);
+    const [user, setUser] = useState<UserFrontend>()
     const [projects, setProjects] = useState<Project[]>([])
     const [amount, setAmount] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
-    // const [user, setUser] = useState<User>()
 
     const loggedInUser = JSON.parse(localStorage.getItem('user')!) as UserFrontend;
     console.log(loggedInUser, 'myprojects')
+
+
 
     const handleOpen = (projectId: any) => {
         // Update the open state for the specified project
@@ -46,9 +49,35 @@ export const MyProjectsComponent = () => {
     };
 
     useEffect(() => {
-        getAllUserProjects()
+        loggedInUser;
+        getAllProjects()
+        getUserDetails(loggedInUser.id)
     }, [])
 
+    async function getUserDetails(userId: string) {
+        try {
+            const response = await fetch(`/api/v1/users?userId=${userId}`, {
+                method: 'GET',
+            });
+            const data = await response.json();
+            console.log(data, 'userdata');
+            setUser(data);
+
+            // Now, save the updated user data to localStorage
+            try {
+                localStorage.setItem('user', JSON.stringify(data));
+                console.log('User data saved to localStorage');
+                console.log(user, 'loguser')
+            } catch (localStorageError) {
+                console.log('Error saving user data to localStorage:', localStorageError);
+            }
+            return data;
+
+        } catch (error) {
+            console.log('error getting user data', error);
+        }
+
+    }
 
     const getProjectById = async (sprojectId: any) => {
         try {
@@ -64,7 +93,7 @@ export const MyProjectsComponent = () => {
     }
 
 
-    const getAllUserProjects = async () => {
+    const getAllProjects = async () => {
         try {
             const response = await fetch(`/api/v1/projects`, {
                 method: 'GET'
@@ -78,7 +107,7 @@ export const MyProjectsComponent = () => {
         }
     }
 
-    const userProjs = projects.filter(project => loggedInUser.projects.includes(project._id));
+    const userProjs = projects.filter(project => user?.projects.includes(project._id));
 
     const deleteAproject = async (projectId: any) => {
         try {
@@ -132,7 +161,7 @@ export const MyProjectsComponent = () => {
 
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
-        {   userProjs.map((userproject, i) => {
+        {userProjs.map((userproject, i) => {
             const imageLocation = userproject.image;
             return (
                 <Grid item xs={12} md={6} key={i}>
