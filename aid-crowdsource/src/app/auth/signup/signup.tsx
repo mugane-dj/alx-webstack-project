@@ -4,7 +4,7 @@ import mainTheme from "../../../theme"
 import React, { FormEvent, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PersonIcon from '@mui/icons-material/Person';
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export const SignupComponent = () => {
     const [password, setPassword] = useState('');
@@ -47,8 +47,8 @@ export const SignupComponent = () => {
             localStorage.setItem('user', JSON.stringify(formData));
             console.log(localStorage, 'reg')
             console.log(response.json, "data");
-            toast.success('User Created Successfully', {  position: 'top-center'})
-            alert('User Created Successfully')
+            toast.success('User Created Successfully', { position: 'top-center' })
+            // alert('User Created Successfully')
             window.location.href = "/login";
         } catch (error) {
             console.log(error);
@@ -61,6 +61,7 @@ export const SignupComponent = () => {
             height: '100vh',
             background: 'linear-gradient(to right, #d00000, #ffc837)', display: "flex", justifyContent: 'center'
         }}>
+            <Toaster />
             <Paper elevation={4} sx={{
                 margin: '100px',
                 height: '75vh',

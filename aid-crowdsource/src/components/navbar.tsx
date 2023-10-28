@@ -10,9 +10,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import mainTheme from '../theme';
-import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField, useMediaQuery } from '@mui/material';
 import { UserFrontend } from '../interfaces/IUser';
 import router from 'next/router';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -89,12 +90,14 @@ function ResponsiveAppBar() {
             });
             if (response.ok) {
                 const data = await response.json();
-                alert('Project Created Sucessfully')
+                toast.success('Project Created Sucessfully')
                 console.log(data, 'projects response data');
             } else {
+                toast.error('Error Creating Project');
                 console.error('Error creating a project:', response.status);
             }
         } catch (error) {
+            toast.error('Error Creating Project');
             console.error('Error creating a project', error);
         }
     }
@@ -102,6 +105,7 @@ function ResponsiveAppBar() {
 
     return (
         <AppBar position="static" sx={{ backgroundColor: mainTheme.palette.primary.light }}>
+            <Toaster />
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography

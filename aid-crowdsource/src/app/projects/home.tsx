@@ -7,6 +7,7 @@ import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import toast, { Toaster } from "react-hot-toast";
 
 
 const style = {
@@ -33,7 +34,7 @@ export const ProjectsComponent = () => {
         getProjectById(projectId)
     };
     const closeModal = () => {
-        alert('Donation Made Successfully');
+        // alert('Donation Made Successfully');
         setOpen(false);
 
     };
@@ -76,9 +77,10 @@ export const ProjectsComponent = () => {
                 method: 'DELETE'
             });
             const data = await response.json();
-            alert('project sucessfully deleted');
+            toast.success('Project Sucessfully Deleted');
             console.log(data, 'deleteProjectsData');
         } catch (error) {
+            toast.error('Error Deleting Project');
             console.log('error deletig projects')
 
         }
@@ -109,12 +111,10 @@ export const ProjectsComponent = () => {
             });
             const res = await response.json();
             console.log(res, 'create donation response')
-            if (res.status === 200) {
-                const data = await response.json();
-                alert('Donation Made Successfully');
-                console.log(data, 'success')
-            }
+            toast.success('Donation Made Successfully');
+
         } catch (error) {
+            toast.error('Error Making a Donation')
             console.log(error, 'donation error');
         }
 
@@ -122,6 +122,7 @@ export const ProjectsComponent = () => {
 
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
+        <Toaster />
         {projects.map((project, i) => {
             const imageLocation = project.image;
             return (
@@ -129,11 +130,10 @@ export const ProjectsComponent = () => {
                     <Card sx={{ display: 'flex' }}>
                         <CardMedia
                             component="img"
-                            sx={{ width: '40%', height: '100%' }}
+                            sx={{ width: '40%', height: '100%', padding: '10px' }}
                             loading="lazy"
                             src={`${imageLocation}`}
-                            alt="Project photo"
-                        />
+                            alt="Project photo" />
                         <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
                             <CardContent sx={{}}>
                                 <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>

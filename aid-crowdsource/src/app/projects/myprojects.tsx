@@ -9,6 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { UserFrontend } from "../../interfaces/IUser";
+import toast, { Toaster } from "react-hot-toast";
 
 
 
@@ -44,7 +45,6 @@ export const MyProjectsComponent = () => {
     };
 
     const closeModal = () => {
-        alert('Donation Made Successfully');
         setOpen(false);
     };
 
@@ -115,9 +115,10 @@ export const MyProjectsComponent = () => {
                 method: 'DELETE'
             });
             const data = await response.json();
-            alert('project sucessfully deleted');
+            toast.success('Project Sucessfully Deleted');
             console.log(data, 'deleteProjectsData');
         } catch (error) {
+            toast.error('Error Deleting Project');
             console.log('error deletig projects')
 
         }
@@ -148,19 +149,17 @@ export const MyProjectsComponent = () => {
             });
             const res = await response.json();
             console.log(res, 'create donation response')
-            if (res.status === 200) {
-                const data = await response.json();
-                alert('Donation Made Successfully');
-                console.log(data, 'success')
-            }
+            toast.success('Donation Made Successfully');
         } catch (error) {
-            console.log(error, 'donation error');
+            toast.error('Error Making A Donation')
+            console.log(error, 'donation error');;
         }
 
     }
 
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
+        <Toaster />
         {userProjs.map((userproject, i) => {
             const imageLocation = userproject.image;
             return (

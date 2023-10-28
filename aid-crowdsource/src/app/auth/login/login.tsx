@@ -1,5 +1,5 @@
 import { VisibilityOff, Visibility, Email } from "@mui/icons-material"
-import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, Link } from "@mui/material"
+import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, Link, useMediaQuery } from "@mui/material"
 import mainTheme from "../../../theme"
 import React, { FormEvent, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -7,6 +7,7 @@ import { interFont, } from "../../../utils/font";
 import { useRouter } from "next/router";
 import PersonIcon from '@mui/icons-material/Person';
 import { User, UserFrontend } from "../../../interfaces/IUser";
+import toast, { Toaster } from "react-hot-toast";
 
 
 
@@ -35,7 +36,7 @@ export const LoginComponent = () => {
             try {
                 localStorage.setItem('user', JSON.stringify(data));
                 console.log('User data saved to localStorage');
-                console.log(user, 'loguser')
+                // console.log(user, 'loguser')
             } catch (localStorageError) {
                 console.log('Error saving user data to localStorage:', localStorageError);
             }
@@ -78,15 +79,14 @@ export const LoginComponent = () => {
 
                 console.log(userId);
                 getUserDetails(userId);
-                alert('Login Successful');
+                toast.success('Login Successful')
                 router.push('/home')
             } else {
-                alert('invalid username or password')
+                toast.error('Invalid Username or Password')
                 console.log("User ID not found in the log message.");
             }
-
         } catch (error) {
-            alert('User not found')
+            toast.error('User Not Found')
             console.log(error, 'logintsx error');
         }
     }
@@ -97,10 +97,12 @@ export const LoginComponent = () => {
             height: '100vh',
             background: 'linear-gradient(to right, #d00000, #ffc837)', display: "flex", justifyContent: 'center'
         }}>
+            <Toaster />
             <Paper elevation={4} sx={{
                 margin: '100px',
                 height: '65vh',
                 width: '50%'
+
             }}>
                 <Grid item xs={12} sx={{
                     padding: '20px 0',
