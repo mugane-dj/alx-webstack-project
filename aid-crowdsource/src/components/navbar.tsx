@@ -122,7 +122,7 @@ function ResponsiveAppBar() {
                             textDecoration: 'none',
                         }}
                     >
-                        ACROWDSOURCE
+                        AIDCROWDSOURCE
                     </Typography>
                     <List sx={{
                         display: 'flex',
