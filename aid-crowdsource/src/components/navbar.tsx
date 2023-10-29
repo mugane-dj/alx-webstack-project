@@ -104,36 +104,39 @@ function ResponsiveAppBar() {
 
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: mainTheme.palette.primary.light }}>
+        <AppBar position="static" sx={{ background: 'linear-gradient(to right, #d00000, #ffc837)' }}>
             <Toaster />
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar disableGutters sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                     <Typography
                         variant="h6"
                         noWrap
                         component="a"
                         href="#app-bar-with-responsive-menu"
                         sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
+                            mr: 1,
+                            display: 'flex',
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
                     >
-                        AIDCROWDSOURCE
+                        ACROWDSOURCE
                     </Typography>
-
                     <List sx={{
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'flex-end',
                         alignItems: 'center',
-                        width: "20%",
+                        width: "30%",
                         paddingLeft: "auto",
                         paddingRight: 0,
-                        marginRight: 'auto'
+                        marginRight: 'auto',
+                        '@media (max-width: 600px)': {
+                            display: 'none',
+                        },
+                        
                     }}>
                         {navItems.map((item, i) => (
                             <ListItem key={i + "headerLinks"} disablePadding sx={{
@@ -159,24 +162,6 @@ function ResponsiveAppBar() {
                             </ListItem>
                         ))}
                     </List>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        AIDCROWDSOURCE
-                    </Typography>
                     <Stack direction={'row'} sx={{ right: 0 }} >
                         <Box>
                             <Button onClick={handleOpen} sx={{
@@ -185,15 +170,22 @@ function ResponsiveAppBar() {
                                 '&: hover': {
                                     backgroundColor: "white", color: mainTheme.palette.primary.light,
                                     textTransform: "none", borderRadius: '30px', transform: 'scale(1.05)'
-                                }
+                                },
+                                '@media (max-width: 600px)': {
+                                    height: '100%', width: '100px', marginRight: '10px'
+                                },
                             }}>
                                 Create A Project
                             </Button>
                         </Box>
-                        <Box sx={{ flexGrow: 0 }}>
+                        <Box sx={{
+                            flexGrow: 0, '@media (max-width: 600px)': {
+                                right: 0, marginTop: '10px'
+                            },
+                        }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar sx={{ marginLeft: '10px' }}>{user.username.charAt(0).toUpperCase()}</Avatar>
+                                    <Avatar sx={{ marginLeft: '10px', }}>{user.username.charAt(0).toUpperCase()}</Avatar>
                                 </IconButton>
                             </Tooltip>
                             <Menu
