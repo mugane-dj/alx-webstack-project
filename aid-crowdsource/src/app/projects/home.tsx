@@ -34,7 +34,6 @@ export const ProjectsComponent = () => {
         getProjectById(projectId)
     };
     const closeModal = () => {
-        // alert('Donation Made Successfully');
         setOpen(false);
 
     };
@@ -127,15 +126,30 @@ export const ProjectsComponent = () => {
             const imageLocation = project.image;
             return (
                 <Grid item xs={12} md={6} key={i}>
-                    <Card sx={{ display: 'flex' }}>
+                    <Card sx={{
+                        display: 'flex',
+                        '@media (max-width: 600px)': {
+                            flexDirection: 'column',
+                        },
+                    }}>
                         <CardMedia
                             component="img"
-                            sx={{ width: '40%', height: '100%', padding: '10px' }}
+                            sx={{
+                                width: '40%', height: '100%', padding: '10px',
+                                '@media (max-width: 600px)': {
+                                    width: '100%',
+                                },
+                            }}
                             loading="lazy"
                             src={`${imageLocation}`}
                             alt="Project photo" />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
-                            <CardContent sx={{}}>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', width: '60%', paddingTop: 0,
+                            '@media (max-width: 600px)': {
+                                width: '100%',
+                            },
+                        }}>
+                            <CardContent>
                                 <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
                                     <Typography sx={{ marginBottom: '15px' }}
                                         component={'div'} textTransform={'capitalize'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
@@ -148,7 +162,7 @@ export const ProjectsComponent = () => {
                                     variant={'subtitle1'} color="text.secondary" component={'div'}>
                                     {capitalizeFirstLetter(project.description)}
                                 </Typography>
-                                <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between' }}>
+                                <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
                                     <Stack direction={'column'} marginRight={2}>
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
                                             Goal Amount: Ksh {project.goalAmount}
@@ -157,7 +171,7 @@ export const ProjectsComponent = () => {
                                             Amount Raised: Ksh 5,000
                                         </Typography>
                                     </Stack>
-                                    <Stack direction={'row'}>
+                                    <Stack direction={'row'} sx={{ right: 0, padding: 0 }}>
                                         <Button onClick={() => handleOpen(project._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
                                         </Button>
                                     </Stack>

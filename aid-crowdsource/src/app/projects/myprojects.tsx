@@ -164,15 +164,29 @@ export const MyProjectsComponent = () => {
             const imageLocation = userproject.image;
             return (
                 <Grid item xs={12} md={6} key={i}>
-                    <Card sx={{ display: 'flex' }}>
+                    <Card sx={{
+                        display: 'flex',
+                        '@media (max-width: 600px)': {
+                            flexDirection: 'column',
+                        },
+                    }}>
                         <CardMedia
                             component="img"
-                            sx={{ width: '40%', height: '100%' }}
+                            sx={{
+                                width: '40%', height: '100%', padding: '10px',
+                                '@media (max-width: 600px)': {
+                                    width: '100%',
+                                },
+                            }}
                             loading="lazy"
                             src={`${imageLocation}`}
-                            alt="Project photo"
-                        />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', paddingTop: 0 }}>
+                            alt="Project photo" />
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', width: '60%', paddingTop: 0,
+                            '@media (max-width: 600px)': {
+                                width: '100%',
+                            },
+                        }}>
                             <CardContent sx={{}}>
                                 <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
                                     <Typography sx={{ marginBottom: '15px' }}
