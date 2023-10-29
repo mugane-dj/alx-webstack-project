@@ -1,4 +1,4 @@
-import { VisibilityOff, Visibility, Email } from "@mui/icons-material"
+import { VisibilityOff, Visibility, Email, Scale } from "@mui/icons-material"
 import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, Link, useMediaQuery } from "@mui/material"
 import mainTheme from "../../../theme"
 import React, { FormEvent, useState } from "react";
@@ -95,108 +95,122 @@ export const LoginComponent = () => {
         <Grid container sx={{
             padding: '0',
             height: '100vh',
-            background: 'linear-gradient(to right, #d00000, #ffc837)', display: "flex", justifyContent: 'center'
+            background: 'white',
+            display: "flex", justifyContent: 'center',
+            '@media (max-width: 600px)': {
+                alignItems: 'center',
+                height: '80vh'
+            },
+            '@media (min-width: 601px) and (max-width: 960px)': {
+                height: '80vh',
+            }
+
         }}>
             <Toaster />
             <Paper elevation={4} sx={{
                 margin: '100px',
                 height: '65vh',
-                width: '50%'
-
+                width: '50%',
+                '@media (max-width: 600px)': {
+                    margin: '10px',
+                    width: '80%',
+                    height: '50vh'
+                },
+                '@media (min-width: 601px) and (max-width: 960px)': {
+                    height: '35vh',
+                }
             }}>
-                <Grid item xs={12} sx={{
-                    padding: '20px 0',
-                    margin: 0, alignItems: "center", width: '100%'
-                }}>
-                    <form onSubmit={handleLogin}
-                        style={{ display: 'flex', flexDirection: 'column', marginBottom: 0, width: '100%' }}>
-                        <Container sx={{ marginTop: '10px' }}>
-                            <Typography fontWeight={600} my={1} sx={{
-                                textAlign: 'center', fontSize: 30, lineHeight: '38px', fontWeight: 600
-                            }}>
-                                Login
-                            </Typography>
-                            <Grid container mt={2} sx={{
-                                display: 'flex',
-                                flexDirection: "row",
-                                alignItems: 'center', justifyContent: 'center'
+                <form onSubmit={handleLogin}
+                    style={{ display: 'flex', flexDirection: 'column', marginBottom: 0, width: '100%' }}>
+                    <Container sx={{
+                        marginTop: '10px',
+                        '@media (max-width: 600px)': {
+                            marginTop: '20px',
+                        },
+                    }}>
+                        <Typography fontWeight={600} my={1} sx={{
+                            textAlign: 'center', fontSize: 30, lineHeight: '38px', fontWeight: 600
+                        }}>
+                            Login
+                        </Typography>
+                        <Grid container mt={2} sx={{
+                            display: 'flex',
+                            flexDirection: "row",
+                            alignItems: 'center', justifyContent: 'center'
 
-                            }}>
-                                <Grid item xs={8} mb={2}  >
-                                    <TextField required name="username" fullWidth placeholder="Username"
-                                        onChange={(e) => (setUserName(e.target.value))}
-                                        size="small"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <PersonIcon />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={8} mb={2} >
-                                    <TextField
-                                        required
-                                        name="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        fullWidth
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        placeholder="Password"
-                                        size="small"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                        onChange={(e) => (setPassword(e.target.value))}
-                                    />
-                                </Grid>
-
-                                <Grid item xs={8} mt={3}>
-                                    <Button type="submit" sx={{
-                                        width: '100%',
-                                        borderRadius: '40px',
-                                        textTransform: "none",
-                                        fontSize: "16px",
-                                        boxShadow: 'none',
-                                        backgroundColor: mainTheme.palette.primary.light,
-                                        "&:hover": {
-                                            backgroundColor: "white",
-                                            color: mainTheme.palette.primary.light,
-                                            border: `solid 1px ${mainTheme.palette.primary.light}`,
-                                            boxShadow: 'none'
-                                        }
-                                    }} size="small" variant="contained" >Sign In
-                                    </Button>
-                                </Grid>
-
+                        }}>
+                            <Grid item xs={12} md={8} mb={2}  >
+                                <TextField required name="username" fullWidth placeholder="Username"
+                                    onChange={(e) => (setUserName(e.target.value))}
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <PersonIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
                             </Grid>
-                        </Container>
-                    </form>
-                    <Link href="/signup" underline="none" sx={{
-                        marginTop: '20px',
-                        fontFamily: interFont,
-                        color: mainTheme.palette.primary.contrastText,
-                        textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
-                        '&: hover': {
-                            color: mainTheme.palette.primary.light,
-                        }
+                            <Grid item xs={12} md={8} mb={2} >
+                                <TextField
+                                    required
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    fullWidth
+                                    id="outlined-basic"
+                                    variant="outlined"
+                                    placeholder="Password"
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    onChange={(e) => (setPassword(e.target.value))}
+                                />
+                            </Grid>
 
-                    }}
-                    > Create an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
-                </Grid>
+                            <Grid item xs={12} md={8} mt={3}>
+                                <Button type="submit" sx={{
+                                    width: '100%',
+                                    borderRadius: '40px',
+                                    textTransform: "none",
+                                    fontSize: "16px",
+                                    boxShadow: 'none',
+                                    background: 'linear-gradient(to right, #d00000, #ffc837)',
+                                    "&:hover": {
+                                        transform: 'scale(1.1)'
+                                    }
+                                }} size="small" variant="contained" >Sign In
+                                </Button>
+                            </Grid>
+
+                        </Grid>
+                    </Container>
+                </form>
+                <Link href="/signup" underline="none" sx={{
+                    marginTop: '20px',
+                    fontFamily: interFont,
+                    color: mainTheme.palette.primary.contrastText,
+                    fontSize: '18px',
+                    textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
+                    '&: hover': {
+                        color: mainTheme.palette.primary.light,
+                    }
+
+                }}
+                > Create an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
             </Paper>
-        </Grid >
+        </Grid>
     )
 }

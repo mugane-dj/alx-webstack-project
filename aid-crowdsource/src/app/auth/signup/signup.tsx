@@ -59,18 +59,30 @@ export const SignupComponent = () => {
         <Grid container sx={{
             padding: '0',
             height: '100vh',
-            background: 'linear-gradient(to right, #d00000, #ffc837)', display: "flex", justifyContent: 'center'
+            background: 'white',
+            display: "flex", justifyContent: 'center',
+            '@media (max-width: 600px)': {
+                alignItems: 'center',
+                height: '80vh'
+            },
+            '@media (min-width: 601px) and (max-width: 960px)': {
+                height: '80vh',
+            }
         }}>
             <Toaster />
             <Paper elevation={4} sx={{
                 margin: '100px',
-                height: '75vh',
-                width: '50%'
+                height: '68vh',
+                width: '50%',
+                '@media (max-width: 600px)': {
+                    margin: '10px',
+                    width: '80%',
+                    height: '60vh'
+                },
+                '@media (min-width: 601px) and (max-width: 960px)': {
+                    height: '40vh',
+                }
             }}>
-                <Grid item xs={12} sx={{
-                    padding: '20px 0',
-                    margin: 0, alignItems: "center", width: '100%'
-                }}>
                     <form onSubmit={handleSubmit} action="#"
                         style={{ display: 'flex', flexDirection: 'column', marginBottom: 0, width: '100%' }}>
                         <Container sx={{ marginTop: '10px' }}>
@@ -85,7 +97,7 @@ export const SignupComponent = () => {
                                 alignItems: 'center', justifyContent: 'center'
 
                             }}>
-                                <Grid item xs={8} mb={2}  >
+                                <Grid item xs={12} md={8} mb={2}  >
                                     <TextField required name="username" fullWidth placeholder="Username"
                                         onChange={(e) => setUserName(e.target.value)}
                                         size="small"
@@ -98,7 +110,7 @@ export const SignupComponent = () => {
                                         }}
                                     />
                                 </Grid>
-                                <Grid item xs={8} mb={2}  >
+                                <Grid item xs={12} md={8} mb={2}  >
                                     <TextField required name="mail" fullWidth placeholder="Email"
                                         onChange={(e) => setEmail(e.target.value)}
                                         size="small"
@@ -111,7 +123,7 @@ export const SignupComponent = () => {
                                         }}
                                     />
                                 </Grid>
-                                <Grid item xs={8} mb={2} >
+                                <Grid item xs={12} md={8} mb={2} >
                                     <TextField
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
@@ -137,7 +149,7 @@ export const SignupComponent = () => {
                                         }}
                                     />
                                 </Grid>
-                                <Grid item xs={8} mb={2} >
+                                <Grid item xs={12} md={8} mb={2} >
                                     <TextField
                                         required
                                         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -164,22 +176,19 @@ export const SignupComponent = () => {
                                     />
                                 </Grid>
 
-                                <Grid item xs={8} mt={3}>
-                                    <Button type="submit" sx={{
-                                        width: '100%',
-                                        borderRadius: '40px',
-                                        textTransform: "none",
-                                        fontSize: "16px",
-                                        boxShadow: 'none',
-                                        backgroundColor: mainTheme.palette.primary.light,
-                                        "&:hover": {
-                                            backgroundColor: "white",
-                                            color: mainTheme.palette.primary.light,
-                                            border: `solid 1px ${mainTheme.palette.primary.light}`,
-                                            boxShadow: 'none'
-                                        }
-                                    }} size="small" variant="contained" >Sign Up
-                                    </Button>
+                                <Grid item xs={12} md={8} mt={3}>
+                                <Button type="submit" sx={{
+                                    width: '100%',
+                                    borderRadius: '40px',
+                                    textTransform: "none",
+                                    fontSize: "16px",
+                                    boxShadow: 'none',
+                                    background: 'linear-gradient(to right, #d00000, #ffc837)',
+                                    "&:hover": {
+                                        transform: 'scale(1.1)'
+                                    }
+                                }} size="small" variant="contained" >Sign In
+                                </Button>
                                 </Grid>
 
                             </Grid>
@@ -187,7 +196,6 @@ export const SignupComponent = () => {
                     </form>
                     <Link href="/login" underline="none" sx={{
                         marginTop: '20px',
-                        // fontFamily: interFont,
                         color: mainTheme.palette.primary.contrastText,
                         textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
                         '&: hover': {
@@ -195,7 +203,6 @@ export const SignupComponent = () => {
                         }
                     }}
                     > Already have an Account? Sign In <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
-                </Grid>
             </Paper >
 
 
