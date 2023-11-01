@@ -1,5 +1,12 @@
 import { ObjectId } from 'mongodb';
 
+type PaymentRecord = {
+    mpesaReceiptNumber: string;
+    amount: number;
+    phoneNumber: string;
+    transactionDate: Date;
+}
+
 export enum ProjectStatus {
     PendingApproval = 'pending-approval',
     Approved = 'approved',
@@ -14,6 +21,8 @@ export interface Project {
     image: string;
     status: ProjectStatus;
     goalAmount: number;
+    amountRaised: number;
+    paymentRecords: PaymentRecord[];
     businessShortCode: string;
     createdAt: Date;
     updatedAt: Date;
@@ -31,6 +40,8 @@ export interface ProjectFrontend {
     image: string;
     status: ProjectStatus;
     goalAmount: number;
+    amountRaised: number;
+    paymentRecords: PaymentRecord[];
     businessShortCode: string;
     createdAt: Date;
     updatedAt: Date;

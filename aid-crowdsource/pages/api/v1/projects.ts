@@ -32,6 +32,8 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
                         image: existingProject.image,
                         status: existingProject.status,
                         goalAmount: existingProject.goalAmount,
+                        amountRaised: existingProject.amountRaised,
+                        paymentRecords: existingProject.paymentRecords,
                         createdAt: existingProject.createdAt,
                         updatedAt: existingProject.updatedAt
                     }
@@ -115,6 +117,8 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
                             businessShortCode: projectBusinessShortCode,
                             status: ProjectStatus.Approved,
                             goalAmount: parseInt(projectGoalAmount as string, 10),
+                            amountRaised: 0,
+                            paymentRecords: [],
                             createdAt: new Date(Date.now()),
                             updatedAt: null,
                             _id: new ObjectId()
