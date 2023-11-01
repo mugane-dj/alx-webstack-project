@@ -206,7 +206,7 @@ export const MyProjectsComponent = () => {
                                             Goal Amount: Ksh {userproject.goalAmount}
                                         </Typography>
                                         <Typography variant={'body2'} component={'div'}>
-                                            Amount Raised: Ksh 5,000
+                                            Amount Raised: Ksh {userproject.amountRaised}
                                         </Typography>
                                     </Stack>
                                     <Stack direction={'row'}>
