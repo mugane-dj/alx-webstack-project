@@ -1,6 +1,7 @@
 # Aid Crowd Source Platform
 
-![aidcrowdsource](https://github.com/mugane-dj/alx-webstack-project/assets/85606106/fe4f6649-1046-4bcd-87c6-86cbc1c382a0)
+![crowdsource-arch](https://github.com/mugane-dj/alx-webstack-project/assets/85606106/9860e75b-4d2f-4e48-81c3-142ea62e786e)
+
 ## Introduction
 The project aims at providing a web application where communities can create aid projects and crowd-source for funding. Donation are natively processed through an M-Pesa STK push.
 ### Authors
