@@ -10,14 +10,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import mainTheme from '../theme';
-import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField, useMediaQuery } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField} from '@mui/material';
 import { UserFrontend } from '../interfaces/IUser';
 import router from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 
 
 
-const settings = ['Logout'];
 const style = {
     position: 'absolute' as 'absolute',
     top: '40%',
@@ -43,19 +42,12 @@ function ResponsiveAppBar() {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);

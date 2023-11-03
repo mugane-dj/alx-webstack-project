@@ -11,8 +11,6 @@ export const SignupComponent = () => {
     const [cpassword, setConfirmPassword] = useState('');
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    const [usernameError, setUsernameError] = useState('');
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -22,15 +20,14 @@ export const SignupComponent = () => {
     const handleSubmit = async (submit: FormEvent<HTMLFormElement>) => {
         submit.preventDefault()
         if (!/^(?=.*\d.*\d)[a-zA-Z0-9]+$/.test(username)) {
-            setUsernameError('Username should be alphanumeric and contain atleast 2 numbers');
+            toast.error('Username should be alphanumeric and contain atleast 2 numbers');
             return;
         }
-
         if (password !== cpassword) {
-            setConfirmPasswordError('Passwords do not match');
+            toast.error('Passwords do not match');
             return;
         } else if (password.length < 8 || cpassword.length < 8) {
-            setConfirmPasswordError('Password should have a minimum of 8 characters')
+            toast.error('Password should have a minimum of 8 characters')
             return;
         }
 
@@ -187,7 +184,7 @@ export const SignupComponent = () => {
                                     "&:hover": {
                                         transform: 'scale(1.1)'
                                     }
-                                }} size="small" variant="contained" >Sign In
+                                }} size="small" variant="contained" >Sign Up
                                 </Button>
                                 </Grid>
 
