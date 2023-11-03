@@ -193,7 +193,13 @@ export const MyProjectsComponent = () => {
                                         component={'div'} textTransform={'capitalize'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
                                         {userproject.title}
                                     </Typography>
-                                    <Button sx={{ width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.main }}
+                                    <Button sx={{
+                                        width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.light, color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: mainTheme.palette.primary.main,
+                                            boxShadow: 'none'
+                                        }
+                                    }}
                                         variant={'contained'} onClick={() => deleteAproject(userproject._id)}>Delete</Button>
                                 </Stack>
                                 <Typography sx={{ lineHeight: '20px', marginBottom: '15px' }}
@@ -210,7 +216,8 @@ export const MyProjectsComponent = () => {
                                         </Typography>
                                     </Stack>
                                     <Stack direction={'row'}>
-                                        <Button onClick={() => handleOpen(userproject._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
+                                        <Button sx={{ color: 'blue' }}
+                                            onClick={() => handleOpen(userproject._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
                                         </Button>
                                     </Stack>
                                 </Stack>
@@ -245,7 +252,11 @@ export const MyProjectsComponent = () => {
                                 />
                             </DialogContent>
                             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button variant="contained" type="submit">
+                                <Button sx={{
+                                    backgroundColor: 'blue', color: 'white', '&:hover': {
+                                        backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
+                                    }
+                                }} variant="contained" type="submit">
                                     Submit
                                 </Button>
                                 <Button sx={{ color: mainTheme.palette.primary.main }} onClick={closeModal}>Close</Button>

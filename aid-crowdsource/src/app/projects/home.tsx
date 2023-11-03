@@ -152,10 +152,16 @@ export const ProjectsComponent = () => {
                             <CardContent>
                                 <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
                                     <Typography sx={{ marginBottom: '15px' }}
-                                        component={'div'} textTransform={'capitalize'} variant={'h6'} color={mainTheme.palette.primary.contrastText}>
+                                        component={'div'} textTransform={'capitalize'} variant={'subtitle1'} color={mainTheme.palette.primary.contrastText}>
                                         {project.title}
                                     </Typography>
-                                    <Button sx={{ width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.main }}
+                                    <Button sx={{
+                                        width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.light, color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: mainTheme.palette.primary.main,
+                                            boxShadow: 'none'
+                                        }
+                                    }}
                                         variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>
                                 </Stack>
                                 <Typography sx={{ lineHeight: '20px', marginBottom: '15px' }}
@@ -172,7 +178,9 @@ export const ProjectsComponent = () => {
                                         </Typography>
                                     </Stack>
                                     <Stack direction={'row'} sx={{ right: 0, padding: 0 }}>
-                                        <Button onClick={() => handleOpen(project._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
+                                        <Button sx={{ color: 'blue' }}
+                                            onClick={() => handleOpen(project._id)}
+                                        >Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
                                         </Button>
                                     </Stack>
                                 </Stack>
@@ -208,7 +216,12 @@ export const ProjectsComponent = () => {
                                 />
                             </DialogContent>
                             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button variant="contained" type="submit">
+                                <Button sx={{
+                                    backgroundColor: 'blue', color: 'white', '&:hover': {
+                                        backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
+                                    }
+                                }}
+                                    variant="contained" type="submit">
                                     Submit
                                 </Button>
                                 <Button sx={{ color: mainTheme.palette.primary.main }} onClick={closeModal}>Close</Button>

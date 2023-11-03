@@ -116,10 +116,11 @@ function ResponsiveAppBar() {
                         sx={{
                             mr: 1,
                             display: 'flex',
-                            fontFamily: 'monospace',
+                            // fontFamily: 'monospace',
                             fontWeight: 700,
-                            color: 'inherit',
+                            // color: 'inherit',
                             textDecoration: 'none',
+                            color: 'white'
                         }}
                     >
                         AIDCROWDSOURCE
@@ -152,6 +153,7 @@ function ResponsiveAppBar() {
                                     },
                                 }}>
                                     <ListItemText primary={`${item.title}`} sx={{
+                                        fontSize: '20px',
                                         "&:hover": {
                                             transform: 'scale(1.2)'
                                         },
@@ -241,7 +243,9 @@ function ResponsiveAppBar() {
                             <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
                         <Stack direction={'row'} marginTop={3} marginBottom={1} sx={{ justifyContent: 'space-between' }}>
-                            <Button variant={'contained'} type='submit' >Submit</Button>
+                            <Button  sx={{backgroundColor: 'blue', color: 'white', '&:hover': {
+                                backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
+                            }}}  variant={'contained'} type='submit' >Submit</Button>
                             <Button sx={{ color: mainTheme.palette.primary.main }} onClick={handleClose}>Cancel</Button>
                         </Stack>
                     </form>

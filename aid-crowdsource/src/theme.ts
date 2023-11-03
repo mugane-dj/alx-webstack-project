@@ -1,5 +1,5 @@
-import { createTheme} from '@mui/material/styles';
-import {interFont } from './utils/font';
+import { createTheme } from '@mui/material/styles';
+import { interFont } from './utils/font';
 
 const mainTheme = createTheme({
     typography: {
@@ -38,13 +38,18 @@ const mainTheme = createTheme({
             lineheight: '20px',
         },
         h3: {
-            fontSize: 20,
-            fontWeight: 600,
+            fontSize: 28,
+            fontWeight: 400,
             lineHeight: '28px'
+        },
+        h2: {
+            fontSize: 42,
+            fontWeight: 400,
+            lineHeight: '30px'
         },
         h6: {
             fontSize: 18,
-            fontWeight: 400,
+            fontWeight: 600,
             lineHeight: '30px'
         }
     },
@@ -92,13 +97,13 @@ const mainTheme = createTheme({
     },
     breakpoints: {
         values: {
-          xs: 0,
-          sm: 600,
-          md: 960,
-          lg: 1280,
-          xl: 1920,
+            xs: 0,
+            sm: 600,
+            md: 960,
+            lg: 1280,
+            xl: 1920,
         },
-      },
+    },
 
 });
 
