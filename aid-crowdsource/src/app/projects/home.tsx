@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
@@ -8,6 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import toast, { Toaster } from "react-hot-toast";
+import { UserFrontend } from "../../interfaces/IUser";
 
 
 const style = {
@@ -28,6 +30,10 @@ export const ProjectsComponent = () => {
     const [amount, setAmount] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
+
+    const loggedInUser = JSON.parse(localStorage.getItem('user')!) as UserFrontend;
+    console.log(loggedInUser, 'myprojects')
+
     const handleOpen = (projectId: any) => {
         // Update the open state for the specified project
         setOpen(true);
@@ -39,7 +45,8 @@ export const ProjectsComponent = () => {
     };
 
     useEffect(() => {
-        getAllProjects()
+        getAllProjects(),
+            loggedInUser
     }, [])
 
 
@@ -69,6 +76,7 @@ export const ProjectsComponent = () => {
             console.log('error fetching projects', error);
         }
     }
+
 
     const deleteAproject = async (projectId: any) => {
         try {
@@ -155,14 +163,15 @@ export const ProjectsComponent = () => {
                                         component={'div'} textTransform={'capitalize'} variant={'subtitle1'} color={mainTheme.palette.primary.contrastText}>
                                         {project.title}
                                     </Typography>
-                                    <Button sx={{
+
+                                    {loggedInUser.projects.includes(project._id) && <Button sx={{
                                         width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.light, color: 'white',
                                         '&:hover': {
                                             backgroundColor: mainTheme.palette.primary.main,
                                             boxShadow: 'none'
                                         }
                                     }}
-                                        variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>
+                                        variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>}
                                 </Stack>
                                 <Typography sx={{ lineHeight: '20px', marginBottom: '15px' }}
                                     variant={'subtitle1'} color="text.secondary" component={'div'}>

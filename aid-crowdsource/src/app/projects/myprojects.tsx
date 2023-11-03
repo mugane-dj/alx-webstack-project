@@ -34,12 +34,11 @@ export const MyProjectsComponent = () => {
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
 
     const loggedInUser = JSON.parse(localStorage.getItem('user')!) as UserFrontend;
-    console.log(loggedInUser, 'myprojects')
+    console.log(loggedInUser, 'myprojects');
 
 
 
     const handleOpen = (projectId: any) => {
-        // Update the open state for the specified project
         setOpen(true);
         getProjectById(projectId)
     };
@@ -108,6 +107,7 @@ export const MyProjectsComponent = () => {
     }
 
     const userProjs = projects.filter(project => user?.projects.includes(project._id));
+    console.log(userProjs, 'userProjs');
 
     const deleteAproject = async (projectId: any) => {
         try {
