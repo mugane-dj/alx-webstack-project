@@ -10,9 +10,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import mainTheme from '../theme';
-import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField} from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField } from '@mui/material';
 import { UserFrontend } from '../interfaces/IUser';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -32,6 +32,7 @@ const navItems = [{ title: 'Home', link: '/home' }, { title: 'My Projects', link
 
 
 function ResponsiveAppBar() {
+    const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('')
@@ -54,6 +55,14 @@ function ResponsiveAppBar() {
     };
     const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
     console.log(user, user.id, 'loggedin')
+
+    const refreshData = () => {
+        router.replace(router.asPath);
+    }
+
+    const handleRefresh = () => {
+        router.reload();
+    };
 
     const handleImageChange = (event: any) => {
         const image = event.target.files[0];
@@ -82,7 +91,8 @@ function ResponsiveAppBar() {
             });
             if (response.ok) {
                 const data = await response.json();
-                toast.success('Project Created Sucessfully')
+                toast.success('Project Created Sucessfully');
+                handleRefresh();
                 console.log(data, 'projects response data');
             } else {
                 toast.error('Error Creating Project');
@@ -99,7 +109,7 @@ function ResponsiveAppBar() {
         <AppBar position="static" sx={{ background: 'linear-gradient(to right, #d00000, #ffc837)' }}>
             <Toaster />
             <Container maxWidth="xl">
-                <Toolbar disableGutters sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                <Toolbar disableGutters sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography
                         variant="h6"
                         noWrap
@@ -129,7 +139,7 @@ function ResponsiveAppBar() {
                         '@media (max-width: 600px)': {
                             display: 'none',
                         },
-                        
+
                     }}>
                         {navItems.map((item, i) => (
                             <ListItem key={i + "headerLinks"} disablePadding sx={{
@@ -235,9 +245,11 @@ function ResponsiveAppBar() {
                             <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
                         <Stack direction={'row'} marginTop={3} marginBottom={1} sx={{ justifyContent: 'space-between' }}>
-                            <Button  sx={{backgroundColor: 'blue', color: 'white', '&:hover': {
-                                backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
-                            }}}  variant={'contained'} type='submit' >Submit</Button>
+                            <Button sx={{
+                                backgroundColor: 'blue', color: 'white', '&:hover': {
+                                    backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
+                                }
+                            }} variant={'contained'} type='submit' >Submit</Button>
                             <Button sx={{ color: mainTheme.palette.primary.main }} onClick={handleClose}>Cancel</Button>
                         </Stack>
                     </form>

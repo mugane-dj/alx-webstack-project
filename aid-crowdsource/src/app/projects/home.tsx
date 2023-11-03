@@ -10,6 +10,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import toast, { Toaster } from "react-hot-toast";
 import { UserFrontend } from "../../interfaces/IUser";
+import { useRouter } from 'next/router';
+
+
 
 
 const style = {
@@ -25,6 +28,7 @@ const style = {
 
 
 export const ProjectsComponent = () => {
+    const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const [projects, setProjects] = useState<Project[]>([])
     const [amount, setAmount] = useState('');
@@ -50,6 +54,8 @@ export const ProjectsComponent = () => {
     }, [])
 
 
+
+
     const getProjectById = async (sprojectId: any) => {
         try {
             const response = await fetch(`/api/v1/projects?projectId=${sprojectId}`, {
@@ -62,6 +68,10 @@ export const ProjectsComponent = () => {
             console.log('error fetching project by id', error);
         }
     }
+
+    const handleRefresh = () => {
+        router.reload();
+    };
 
 
     const getAllProjects = async () => {
@@ -85,6 +95,7 @@ export const ProjectsComponent = () => {
             });
             const data = await response.json();
             toast.success('Project Sucessfully Deleted');
+            handleRefresh();
             console.log(data, 'deleteProjectsData');
         } catch (error) {
             toast.error('Error Deleting Project');
@@ -241,5 +252,9 @@ export const ProjectsComponent = () => {
             );
         })}
     </Grid>
+}
+
+function setProjects(arg0: Project[]) {
+    throw new Error("Function not implemented.");
 }
 

@@ -10,6 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { UserFrontend } from "../../interfaces/IUser";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 
 
@@ -26,6 +27,7 @@ const style = {
 
 
 export const MyProjectsComponent = () => {
+    const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const [user, setUser] = useState<UserFrontend>()
     const [projects, setProjects] = useState<Project[]>([])
@@ -45,6 +47,10 @@ export const MyProjectsComponent = () => {
 
     const closeModal = () => {
         setOpen(false);
+    };
+
+    const handleRefresh = () => {
+        router.reload();
     };
 
     useEffect(() => {
@@ -116,6 +122,7 @@ export const MyProjectsComponent = () => {
             });
             const data = await response.json();
             toast.success('Project Sucessfully Deleted');
+            handleRefresh();
             console.log(data, 'deleteProjectsData');
         } catch (error) {
             toast.error('Error Deleting Project');

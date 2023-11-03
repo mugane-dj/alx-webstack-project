@@ -7,6 +7,7 @@ import { Grid, ThemeProvider} from "@mui/material";
 import mainTheme from "../src/theme";
 import MobileBottomNavigation from "../src/components/mobilenavigation";
 
+
 const HomePage: NextPage = () => {
     const [isloaded, setIsloaded] = useState(false);
     const isSmallScreen =  mainTheme.breakpoints.down('sm');
