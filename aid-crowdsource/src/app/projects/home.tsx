@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, TextField, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, Grid, LinearProgress, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import toast, { Toaster } from "react-hot-toast";
 import { UserFrontend } from "../../interfaces/IUser";
 import { useRouter } from 'next/router';
+
 
 
 
@@ -138,11 +139,15 @@ export const ProjectsComponent = () => {
 
     }
 
+    
+
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
         <Toaster />
         {projects.map((project, i) => {
             const imageLocation = project.image;
+            const progress = Math.round(project.amountRaised / project.goalAmount * 100);
+
             return (
                 <Grid item xs={12} md={6} key={i}>
                     <Card sx={{
@@ -185,7 +190,7 @@ export const ProjectsComponent = () => {
                                         variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>}
                                 </Stack>
                                 <Typography sx={{ lineHeight: '20px', marginBottom: '15px' }}
-                                    variant={'subtitle1'} color="text.secondary" component={'div'}>
+                                    variant={'body1'} color="text.secondary" component={'div'}>
                                     {capitalizeFirstLetter(project.description)}
                                 </Typography>
                                 <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
@@ -193,9 +198,10 @@ export const ProjectsComponent = () => {
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
                                             Goal Amount: Ksh {project.goalAmount}
                                         </Typography>
-                                        <Typography variant={'body2'} component={'div'}>
+                                        <Typography variant={'body2'} pb={0.5} component={'div'}>
                                             Amount Raised: Ksh {project.amountRaised}
                                         </Typography>
+                                        <LinearProgress variant={'determinate'} value={progress}/>
                                     </Stack>
                                     <Stack direction={'row'} sx={{ right: 0, padding: 0 }}>
                                         <Button sx={{ color: 'blue' }}

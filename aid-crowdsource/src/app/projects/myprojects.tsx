@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Card, CardContent, CardMedia, Grid, Stack, TextField, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, Grid, LinearProgress, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
 import { ArrowForward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -169,6 +169,8 @@ export const MyProjectsComponent = () => {
         <Toaster />
         {userProjs.map((userproject, i) => {
             const imageLocation = userproject.image;
+            const progress = Math.round(userproject.amountRaised / userproject.goalAmount * 100);
+
             return (
                 <Grid item xs={12} md={6} key={i}>
                     <Card sx={{
@@ -218,9 +220,11 @@ export const MyProjectsComponent = () => {
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
                                             Goal Amount: Ksh {userproject.goalAmount}
                                         </Typography>
-                                        <Typography variant={'body2'} component={'div'}>
+                                        <Typography variant={'body2'} pb={0.5} component={'div'}>
                                             Amount Raised: Ksh {userproject.amountRaised}
                                         </Typography>
+                                        <LinearProgress variant={'determinate'} value={progress}/>
+
                                     </Stack>
                                     <Stack direction={'row'}>
                                         <Button sx={{ color: 'blue' }}

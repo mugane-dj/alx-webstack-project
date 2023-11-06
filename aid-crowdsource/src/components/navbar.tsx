@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import mainTheme from '../theme';
 import { List, ListItem, ListItemButton, ListItemText, Modal, Stack, TextField } from '@mui/material';
 import { UserFrontend } from '../interfaces/IUser';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -221,27 +221,29 @@ function ResponsiveAppBar() {
                 aria-describedby="modal-modal-description"
             >
 
-                <Box sx={style} >
+                <Box mt={2} sx={style} >
                     <form onSubmit={createAProject} encType="multipart/form-data">
-                        <Typography variant={'h6'} marginBottom={3} color={mainTheme.palette.primary.main} textAlign={'center'}>Create Project Form</Typography>
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Title</Typography>
+                        <Typography variant={'h4'} marginBottom={2} color={mainTheme.palette.primary.light} textAlign={'center'}>Create A Project Form</Typography>
+                        <Stack direction={'column'} marginBottom={1.5}>
+                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Project Title</Typography>
                             <TextField variant='outlined' name='title' value={title} sx={{ width: '100%' }} onChange={(e) => setTitle(e.target.value)} />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Project Description</Typography>
+                        <Stack direction={'column'} marginBottom={1.5}>
+                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Project Description</Typography>
                             <TextField variant='outlined' name='description' value={description} multiline sx={{ width: '100%' }} onChange={(e) => setDescription(e.target.value)} />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Image</Typography>
+                        <Stack direction={'column'} marginBottom={1.5}>
+                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Image</Typography>
                             <input type='file' name='image' onChange={handleImageChange} />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>Business ShortCode</Typography>
-                            <input name="businessshortcode" value={businessShortCode} readOnly />
+                        <Stack direction={'column'} marginBottom={1.5}>
+                            <Typography sx={{display: 'flex', flexDirection: 'row'}}
+                             variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>M-Pesa Paybill
+                            </Typography>
+                            <input style={{border: ' 0.5px solid grey'}} name="businessshortcode" value={businessShortCode} readOnly />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1}>
-                            <Typography variant={'body1'} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
+                        <Stack direction={'column'} marginBottom={1.5}>
+                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
                             <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
                         <Stack direction={'row'} marginTop={3} marginBottom={1} sx={{ justifyContent: 'space-between' }}>
