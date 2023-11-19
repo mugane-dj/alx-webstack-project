@@ -4,7 +4,6 @@ import { ObjectId } from 'mongodb';
 import clientPromise from '../../../lib/mongodb';
 import redisClient from '../../../lib/redis';
 import { NextApiRequest, NextApiResponse } from 'next';
-
 import { IncomingForm } from 'formidable';
 import s3Upload from '../../../lib/utils/s3Upload';
 
@@ -115,7 +114,7 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
                             description: projectDescription,
                             image: imageLocation ? imageLocation : '',
                             businessShortCode: projectBusinessShortCode,
-                            status: ProjectStatus.Approved,
+                            status: ProjectStatus.PendingApproval,
                             goalAmount: parseInt(projectGoalAmount as string, 10),
                             amountRaised: 0,
                             paymentRecords: [],
@@ -157,20 +156,22 @@ const handler = async (req: NextApiRequest & { file?: Express.Multer.File }, res
             const user = await client.db().collection('users').findOne<User>({
                 projects: new ObjectId(projectId as string)
             });
-            await client.db().collection('projects').updateOne({
-                _id: new ObjectId(projectId as string)
-            }, {
-                $set: {
-                    status: status as ProjectStatus,
-                    updatedAt: new Date(Date.now())
-                }
-            });
-            await redisClient.del(`project-${projectId}`);
-            await redisClient.del('projects');
-            if (user) {
+            if (user && !user?.is_staff || !user?.is_admin) {
+                return res.status(401).json({ message: 'User not authorized to update project status' })
+            } else {
+                await client.db().collection('projects').updateOne({
+                    _id: new ObjectId(projectId as string)
+                }, {
+                    $set: {
+                        status: status as ProjectStatus,
+                        updatedAt: new Date(Date.now())
+                    }
+                });
+                await redisClient.del(`project-${projectId}`);
+                await redisClient.del('projects');
                 await redisClient.del(`user-${user._id.toString()}`);
+                res.status(200).json({ message: 'Project updated successfully' });
             }
-            res.status(200).json({ message: 'Project updated successfully' });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }

@@ -32,9 +32,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         username: existingUser.username,
                         email: existingUser.email,
                         projects: existingUser.projects.map(project => project.toString()),
+                        is_active: existingUser.is_active,
+                        is_staff: existingUser.is_staff,
+                        is_admin: existingUser.is_admin,
+                        last_login: existingUser.last_login,
                         createdAt: existingUser.createdAt,
                         updatedAt: existingUser.updatedAt
                     }
+                    if (!existingUser.last_login) {
+                        await client.db().collection('user').updateOne(
+                            { _id: existingUser._id }, 
+                            { $set: { 
+                                is_active: true,
+                                last_login: new Date(Date.now())
+                            } 
+                        });
+                    } else {
+                        await client.db().collection('users').updateOne(
+                            { _id: existingUser._id }, 
+                            { $set: { 
+                                last_login: new Date(Date.now()) 
+                            } 
+                        });
+                    }
+                    
                     await redisClient.set(`user-${id}`, JSON.stringify(user));
                     await redisClient.expire(`user-${id}`, 3600);
                     res.status(200).json({ message: `Login successful for userId: ${user.id}` });

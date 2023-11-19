@@ -35,6 +35,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     username: existingUser.username,
                     email: existingUser.email,
                     projects: existingUser.projects.map(project => project.toString()),
+                    is_active: existingUser.is_active,
+                    is_staff: existingUser.is_staff,
+                    is_admin: existingUser.is_admin,
+                    last_login: existingUser.last_login,
                     createdAt: existingUser.createdAt,
                     updatedAt: existingUser.updatedAt
                 }
@@ -64,6 +68,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     email,
                     password: hashPass.hashPassword(password),
                     projects: [],
+                    is_active: false,
+                    is_staff: false,
+                    is_admin: false,
                     createdAt: new Date(Date.now()),
                     updatedAt: null
                 });
