@@ -1,7 +1,7 @@
+import moment from 'moment';
 import fetch from 'node-fetch';
 import { ObjectId } from 'mongodb';
 import  auth from '../../../../lib/utils/mpesaAuth';
-import timeStamp from '../../../../lib/utils/timeStamp';
 import { Project } from '../../../../src/interfaces/IProject';
 import clientPromise from '../../../../lib/mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -37,11 +37,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     }
                     const businessShortCode = project.businessShortCode;
                     const passkey = process.env.PASS_KEY;
-                    const timestamp = timeStamp();
+                    const timestamp = moment().format('YYYYMMDDHHmmss');
                     const password = Buffer.from(`${businessShortCode}${passkey}${timestamp}`).toString('base64');
                     const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
                     const callBackURL = `${process.env.CALLBACK_URL}api/v1/payments/expressPayment?projectId=${projectId}`;
-                    console.log(callBackURL);
 
                     const requestBody = {
                         BusinessShortCode: businessShortCode,
@@ -65,6 +64,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         },
                         body: JSON.stringify(requestBody)
                     });
+                    
                     if (response.status === 200) {
                         const data = await response.json();
                         res.status(200).json(data);
