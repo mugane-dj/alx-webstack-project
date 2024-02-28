@@ -223,13 +223,15 @@ export const MyProjectsComponent = () => {
                                         <Typography variant={'body2'} pb={0.5} component={'div'}>
                                             Amount Raised: Ksh {userproject.amountRaised}
                                         </Typography>
-                                        <LinearProgress variant={'determinate'} value={progress}/>
+                                        <Stack direction={'row'} sx={{ alignItems: 'center' }}>
+                                            <LinearProgress variant={'determinate'} value={progress} sx={{ width: '70%' }} />
+                                            <Typography pl={1} variant={'body2'} sx={{ width: '20%' }}>{progress}%</Typography>
+                                        </Stack>
 
                                     </Stack>
                                     <Stack direction={'row'}>
                                         <Button sx={{ color: 'blue' }}
-                                            onClick={() => handleOpen(userproject._id)}>Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
-                                        </Button>
+                                            onClick={() => handleOpen(userproject._id)}>Donate Now</Button>
                                     </Stack>
                                 </Stack>
                             </CardContent>

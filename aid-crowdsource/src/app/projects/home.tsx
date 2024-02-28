@@ -139,7 +139,7 @@ export const ProjectsComponent = () => {
 
     }
 
-    
+
 
 
     return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
@@ -201,13 +201,15 @@ export const ProjectsComponent = () => {
                                         <Typography variant={'body2'} pb={0.5} component={'div'}>
                                             Amount Raised: Ksh {project.amountRaised}
                                         </Typography>
-                                        <LinearProgress variant={'determinate'} value={progress}/>
+                                        <Stack direction={'row'} sx={{ alignItems: 'center' }}>
+                                            <LinearProgress variant={'determinate'} value={progress} sx={{ width: '70%' }} />
+                                            <Typography pl={1} variant={'body2'} sx={{ width: '20%' }}>{progress}%</Typography>
+                                        </Stack>
                                     </Stack>
                                     <Stack direction={'row'} sx={{ right: 0, padding: 0 }}>
                                         <Button sx={{ color: 'blue' }}
                                             onClick={() => handleOpen(project._id)}
-                                        >Donate Now<ArrowForward sx={{ marginLeft: '5px' }} />
-                                        </Button>
+                                        >Donate Now </Button>
                                     </Stack>
                                 </Stack>
                             </CardContent>
