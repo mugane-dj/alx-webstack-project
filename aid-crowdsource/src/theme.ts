@@ -1,9 +1,12 @@
 import { createTheme } from '@mui/material/styles';
 import { interFont } from './utils/font';
+import TextField from "@mui/material/TextField";
+import { poppinsFont } from './utils/font';
+
 
 const mainTheme = createTheme({
     typography: {
-        fontFamily: interFont.style.fontFamily,
+        fontFamily: poppinsFont.style.fontFamily,
         body2: {
             fontSize: 12,
             lineHeight: '20px',
@@ -55,14 +58,14 @@ const mainTheme = createTheme({
     },
     palette: {
         primary: {
-            main: "#d00000",
+            main: "#f3870c",
             light: '#dc2f02',
             dark: '#9d0208',
             contrastText: '#03071e'
 
         },
         secondary: {
-            main: "#faa307",
+            main: '#2015FF',
             light: '#ffba08',
             dark: '#f48c06',
             contrastText: '#fff'
@@ -104,6 +107,39 @@ const mainTheme = createTheme({
             xl: 1920,
         },
     },
+    components: {
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    "& .MuiOutlinedInput-root": {
+                        borderRadius: '20px',
+                        // "&.Mui-focused fieldset": {
+                        //     borderColor: " #000000A6",                            
+                        // },
+                       
+                    }
+
+                },
+
+            },
+            variants: [
+                {
+                    props: { variant: 'outlined' },
+                    style: {
+                        textTransform: 'none',
+                    },
+                },
+                // {
+                //   props: { variant: 'dashed', color: 'secondary' },
+                //   style: {
+                //     border: `4px dashed ${red[500]}`,
+                //   },
+                // },
+            ],
+        },
+
+    },
+
 
 });
 

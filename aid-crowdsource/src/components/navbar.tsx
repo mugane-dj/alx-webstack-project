@@ -23,10 +23,12 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
+    bgcolor: 'white',
+    boxShadow: 4,
     p: 4,
+    borderRadius: '8px'
 };
+
 
 const navItems = [{ title: 'Home', link: '/home' }, { title: 'My Projects', link: '/myprojects' }];
 
@@ -56,13 +58,6 @@ function ResponsiveAppBar() {
     const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
     console.log(user, user.id, 'loggedin')
 
-    const refreshData = () => {
-        router.replace(router.asPath);
-    }
-
-    const handleRefresh = () => {
-        router.reload();
-    };
 
     const handleImageChange = (event: any) => {
         const image = event.target.files[0];
@@ -92,7 +87,6 @@ function ResponsiveAppBar() {
             if (response.ok) {
                 const data = await response.json();
                 toast.success('Project Created Sucessfully');
-                handleRefresh();
                 console.log(data, 'projects response data');
             } else {
                 toast.error('Error Creating Project');
@@ -106,7 +100,7 @@ function ResponsiveAppBar() {
 
 
     return (
-        <AppBar position="static" sx={{ background: 'linear-gradient(to right, #d00000, #ffc837)' }}>
+        <AppBar position="static" sx={{ background: mainTheme.palette.primary.main }}>
             <Toaster />
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -221,38 +215,45 @@ function ResponsiveAppBar() {
                 aria-describedby="modal-modal-description"
             >
 
-                <Box mt={2} sx={style} >
+                <Box mt={2} sx={style}>
                     <form onSubmit={createAProject} encType="multipart/form-data">
-                        <Typography variant={'h4'} marginBottom={2} color={mainTheme.palette.primary.light} textAlign={'center'}>Create A Project Form</Typography>
-                        <Stack direction={'column'} marginBottom={1.5}>
-                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Project Title</Typography>
-                            <TextField variant='outlined' name='title' value={title} sx={{ width: '100%' }} onChange={(e) => setTitle(e.target.value)} />
+                        <Stack direction={'column'} marginBottom={3.5}>
+                            <TextField variant='outlined' name='title' value={title} label='Project Title'
+                                sx={{ width: '100%', borderRadius: '40px' }}
+                                onChange={(e) => setTitle(e.target.value)} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1.5}>
-                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Project Description</Typography>
-                            <TextField variant='outlined' name='description' value={description} multiline sx={{ width: '100%' }} onChange={(e) => setDescription(e.target.value)} />
+                            <TextField variant='outlined' name='description' label="Project Description"
+                                value={description} multiline sx={{ width: '100%' }} onChange={(e) => setDescription(e.target.value)} />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1.5}>
-                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Image</Typography>
-                            <input type='file' name='image' onChange={handleImageChange} />
+                        <Stack direction={'column'} marginBottom={3.0}>
+                            <Typography variant={'body1'} pb={0.5}>Image</Typography>
+                            <input type='file' name='image' onChange={handleImageChange} style={{ height: '20px' }} />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1.5}>
-                            <Typography sx={{display: 'flex', flexDirection: 'row'}}
-                             variant={'body1'} color={mainTheme.palette.primary.contrastText} mb={0.5}>M-Pesa Paybill
-                            </Typography>
-                            <input style={{border: ' 0.5px solid grey'}} name="businessshortcode" value={businessShortCode} readOnly />
+                        <Stack direction={'column'} marginBottom={3.0}>
+                            <TextField name="businessshortcode" label='M-Pesa Paybill' value={businessShortCode} InputProps={{
+                                readOnly: true,
+                            }} />
                         </Stack>
-                        <Stack direction={'column'} marginBottom={1.5}>
-                            <Typography variant={'body1'} pb={1} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography>
-                            <TextField variant='outlined' name='amount' value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
+                        <Stack direction={'column'} marginBottom={3.0}>
+                            {/* <Typography variant={'body1'} pb={0.5} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography> */}
+                            <TextField variant='outlined' name='amount' label='Goal Amount'
+                                value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
-                        <Stack direction={'row'} marginTop={3} marginBottom={1} sx={{ justifyContent: 'space-between' }}>
+                        <Stack direction={'row'} marginTop={3} marginBottom={3} sx={{ justifyContent: 'space-between' }}>
                             <Button sx={{
-                                backgroundColor: 'blue', color: 'white', '&:hover': {
-                                    backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
+                                borderRadius: '40px', backgroundColor: mainTheme.palette.secondary.main, color: 'white', '&:hover': {
+                                    backgroundColor: mainTheme.palette.secondary.main, color: 'white', transform: 'scale(1.05)'
                                 }
                             }} variant={'contained'} type='submit' >Submit</Button>
-                            <Button sx={{ color: mainTheme.palette.primary.main }} onClick={handleClose}>Cancel</Button>
+                            <Button sx={{
+                                color: mainTheme.palette.primary.main,
+                                borderRadius: '40px',
+                                '&:hover': {
+                                    backgroundColor: mainTheme.palette.primary.main, 
+                                    color: 'white', transform: 'scale(1.05)', borderRadius: '40px'
+                                }
+                            }} onClick={handleClose}>Cancel</Button>
                         </Stack>
                     </form>
                 </Box>

@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import { Box, Button, Card, CardContent, CardMedia, Grid, LinearProgress, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
-import { ArrowForward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Project, ProjectFrontend } from "../../interfaces/IProject";
-import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -16,16 +15,6 @@ import { useRouter } from 'next/router';
 
 
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-};
 
 
 export const ProjectsComponent = () => {
@@ -245,14 +234,15 @@ export const ProjectsComponent = () => {
                             </DialogContent>
                             <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Button sx={{
-                                    backgroundColor: 'blue', color: 'white', '&:hover': {
-                                        backgroundColor: 'blue', color: 'white', transform: 'scale(1.05)'
+                                    backgroundColor: '#0C78F3', color: 'white', '&:hover': {
+                                        backgroundColor: '#0C78F3', color: 'white', transform: 'scale(1.05)'
                                     }
                                 }}
                                     variant="contained" type="submit">
                                     Submit
                                 </Button>
-                                <Button sx={{ color: mainTheme.palette.primary.main }} onClick={closeModal}>Close</Button>
+                                <Button sx={{ color: mainTheme.palette.primary.main, border: `solid 1px ${mainTheme.palette.primary.main}` }} 
+                                 onClick={closeModal}>Close</Button>
                             </DialogActions>
                         </form>
                     </Dialog>
@@ -262,7 +252,4 @@ export const ProjectsComponent = () => {
     </Grid>
 }
 
-function setProjects(arg0: Project[]) {
-    throw new Error("Function not implemented.");
-}
 

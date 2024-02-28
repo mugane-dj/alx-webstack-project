@@ -23,11 +23,9 @@ export default function Home() {
             boxShadow: 'none',
             color: 'white',
             '&: hover': {
-              boxShadow: 'none',
-              color: mainTheme.palette.primary.light,
-              textTransform: 'none',
-              border: `1px solid ${mainTheme.palette.primary.light}`,
-              backgroundColor: 'transparent'
+             transform: 'scale(1.05)',
+             backgroundColor: mainTheme.palette.primary.main,
+
             }
           }}>Login
           </Button>
@@ -57,7 +55,7 @@ export default function Home() {
           }}>
           <Typography component={'div'} variant={'h2'}
             sx={{ color: mainTheme.palette.primary.main, textAlign: 'center', }}
-          >Pledge to your favorite aid
+          >Donate to your favorite aid
             projects seamlessly</Typography>
           <Typography variant={'h3'} sx={{ color: mainTheme.palette.primary.contrastText, textAlign: 'center', marginTop: '30px', marginBottom: "30px" }}>
             How It Works
@@ -65,7 +63,7 @@ export default function Home() {
           <Grid container spacing={1} sx={{ display: 'flex', flexDirection: 'row' }}>
             <Grid item xs={12} md={4}>
               <Paper elevation={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 10px' }}>
-                <HowToRegIcon fontSize='large' sx={{ color: mainTheme.palette.secondary.main }} />
+                <HowToRegIcon fontSize='large' sx={{ color: mainTheme.palette.primary.main }} />
                 <Typography variant={'h6'}> Create An Account. </Typography>
                 <Typography variant={'body1'}>To get started, click on the &quot;Sign Up&quot; button and provide your basic information.
                   After creating your account, you&apos;ll have access to your personalized dashboard where you can manage your pledges and contributions.
@@ -74,23 +72,21 @@ export default function Home() {
             </Grid>
             <Grid item xs={12} md={4}>
               <Paper elevation={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 10px' }}>
-                <WysiwygIcon fontSize='large' sx={{ color: mainTheme.palette.secondary.main }} />
+                <WysiwygIcon fontSize='large' sx={{ color: mainTheme.palette.primary.main }} />
                 <Typography variant={'h6'}> Create A Project. </Typography>
                 <Typography variant={'body1'}>Begin by clicking the &quot;Create a Project&quot; button on your dashboard.
                   Fill out the project details, including the project&apos;s name, description, fundraising goal, and a compelling story to attract potential donors.
                   You can also upload images or videos to make your project more appealing.
-                  Define how funds will be used and set a deadline for reaching your fundraising goal.
-                  Once your project is created, it will be visible to potential donors.</Typography>
+                 </Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} md={4}>
               <Paper elevation={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 10px' }}>
-                <CreditCardIcon fontSize='large' sx={{ color: mainTheme.palette.secondary.main }} />
+                <CreditCardIcon fontSize='large' sx={{ color: mainTheme.palette.primary.main }} />
                 <Typography variant={'h6'}> Await Donations. </Typography>
                 <Typography variant={'body1'}>
                   After creating a project,
                   Donors can browse the available projects and make contributions to those they support.
-                  You&apos;ll receive notifications when someone pledges to your project, and you can thank donors personally.
                   The platform ensures secure and efficient handling of donations, and you can track the progress of your fundraising campaign in real-time.
                   When your project reaches its funding goal, you can start implementing it and making a positive impact.
                 </Typography>
