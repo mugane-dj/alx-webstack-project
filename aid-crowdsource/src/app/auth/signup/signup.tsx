@@ -1,10 +1,11 @@
+import React from "react";
 import { VisibilityOff, Visibility, Email, } from "@mui/icons-material"
 import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, Link } from "@mui/material"
-import mainTheme from "../../../theme"
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PersonIcon from '@mui/icons-material/Person';
 import toast, { Toaster } from "react-hot-toast";
+import { authHeaderStyle, authLinkStyle, authSubmitButton, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/style";
 
 export const SignupComponent = () => {
     const [password, setPassword] = useState('');
@@ -53,153 +54,108 @@ export const SignupComponent = () => {
     };
 
     return (
-        <Grid container sx={{
-            padding: '0',
-            height: '100vh',
-            background: 'white',
-            display: "flex", justifyContent: 'center',
-            '@media (max-width: 600px)': {
-                alignItems: 'center',
-                height: '80vh'
-            },
-            '@media (min-width: 601px) and (max-width: 960px)': {
-                height: '80vh',
-            }
-        }}>
+        <Grid container sx={gridStyle}>
             <Toaster />
-            <Paper elevation={4} sx={{
-                margin: '100px',
-                height: '68vh',
-                width: '50%',
-                '@media (max-width: 600px)': {
-                    margin: '10px',
-                    width: '80%',
-                    height: '60vh'
-                },
-                '@media (min-width: 601px) and (max-width: 960px)': {
-                    height: '40vh',
-                }
-            }}>
-                    <form onSubmit={handleSubmit} action="#"
-                        style={{ display: 'flex', flexDirection: 'column', marginBottom: 0, width: '100%' }}>
-                        <Container sx={{ marginTop: '10px' }}>
-                            <Typography fontWeight={600} my={1} sx={{
-                                textAlign: 'center', fontSize: 30, lineHeight: '38px', fontWeight: 600
-                            }}>
-                                Create An Account
-                            </Typography>
-                            <Grid container mt={2} sx={{
-                                display: 'flex',
-                                flexDirection: "row",
-                                alignItems: 'center', justifyContent: 'center'
-
-                            }}>
-                                <Grid item xs={12} md={8} mb={2}  >
-                                    <TextField required name="username" fullWidth placeholder="Username"
-                                        onChange={(e) => setUserName(e.target.value)}
-                                        size="small"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <PersonIcon />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={8} mb={2}  >
-                                    <TextField required name="mail" fullWidth placeholder="Email"
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        size="small"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <Email />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={8} mb={2} >
-                                    <TextField
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        name="pass"
-                                        type={showPassword ? 'text' : 'password'}
-                                        fullWidth
-                                        variant="outlined"
-                                        placeholder="Password"
-                                        size="small"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={8} mb={2} >
-                                    <TextField
-                                        required
-                                        onChange={(e) => setConfirmPassword(e.target.value)}
-                                        name="cpass"
-                                        type={showPassword ? 'text' : 'password'}
-                                        fullWidth
-                                        variant="outlined"
-                                        placeholder="Confirm Password"
-                                        size="small"
-                                        InputProps={{
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <IconButton
-                                                        aria-label="toggle password visibility"
-                                                        onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                        edge="end"
-                                                    >
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                    </IconButton>
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12} md={8} mt={3}>
-                                <Button type="submit" sx={{
-                                    width: '100%',
-                                    borderRadius: '40px',
-                                    textTransform: "none",
-                                    fontSize: "16px",
-                                    boxShadow: 'none',
-                                    background: 'linear-gradient(to right, #d00000, #ffc837)',
-                                    "&:hover": {
-                                        transform: 'scale(1.1)'
-                                    }
-                                }} size="small" variant="contained" >Sign Up
-                                </Button>
-                                </Grid>
-
+            <Paper elevation={4} sx={{...paperStyle, 
+            '@media (min-width: 601px) and (max-width: 960px)': {
+                height: '45vh',
+            }}}>
+                <form onSubmit={handleSubmit} action="#"
+                    style={formAuthStyle}>
+                    <Container sx={{ marginTop: '10px' }}>
+                        <Typography fontWeight={600} my={1} sx={authHeaderStyle}>
+                            Create An Account
+                        </Typography>
+                        <Grid container mt={2} sx={gridAuthStyle}>
+                            <Grid item xs={12} md={8} mb={2}  >
+                                <TextField required name="username" fullWidth placeholder="Username"
+                                    onChange={(e) => setUserName(e.target.value)}
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <PersonIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
                             </Grid>
-                        </Container>
-                    </form>
-                    <Link href="/login" underline="none" sx={{
-                        marginTop: '20px',
-                        color: mainTheme.palette.primary.contrastText,
-                        textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
-                        '&: hover': {
-                            color: mainTheme.palette.primary.light,
-                        }
-                    }}
-                    > Already have an Account? Sign In <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
+                            <Grid item xs={12} md={8} mb={2}  >
+                                <TextField required name="mail" fullWidth placeholder="Email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <Email />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={8} mb={2} >
+                                <TextField
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    name="pass"
+                                    type={showPassword ? 'text' : 'password'}
+                                    fullWidth
+                                    variant="outlined"
+                                    placeholder="Password"
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={8} mb={2} >
+                                <TextField
+                                    required
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    name="cpass"
+                                    type={showPassword ? 'text' : 'password'}
+                                    fullWidth
+                                    variant="outlined"
+                                    placeholder="Confirm Password"
+                                    size="small"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} md={8} mt={3}>
+                                <Button type="submit" sx={authSubmitButton} size="small" variant="contained" >Sign Up
+                                </Button>
+                            </Grid>
+
+                        </Grid>
+                    </Container>
+                </form>
+                <Link href="/login" underline="none" sx={authLinkStyle}
+                > Already have an Account? Sign In <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
             </Paper >
 
 

@@ -1,17 +1,17 @@
-import { VisibilityOff, Visibility, Email, Scale } from "@mui/icons-material"
+import React from "react";
+import { VisibilityOff, Visibility } from "@mui/icons-material"
 import { Grid, Container, IconButton, Typography, TextField, InputAdornment, Button, Paper, Link, useMediaQuery } from "@mui/material"
-import mainTheme from "../../../theme"
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { interFont, } from "../../../utils/font";
 import { useRouter } from "next/router";
 import PersonIcon from '@mui/icons-material/Person';
-import {  UserFrontend } from "../../../interfaces/IUser";
+import { UserFrontend } from "../../../interfaces/IUser";
 import toast, { Toaster } from "react-hot-toast";
+import { authHeaderStyle, authLinkStyle, authSubmitButton, containerStyle, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/style";
 
 
 
-export const LoginComponent = () => {
+const LoginComponent = () => {
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -92,53 +92,16 @@ export const LoginComponent = () => {
     }
 
     return (
-        <Grid container sx={{
-            padding: '0',
-            height: '100vh',
-            background: 'white',
-            display: "flex", justifyContent: 'center',
-            '@media (max-width: 600px)': {
-                alignItems: 'center',
-                height: '80vh'
-            },
-            '@media (min-width: 601px) and (max-width: 960px)': {
-                height: '80vh',
-            }
-
-        }}>
+        <Grid container sx={gridStyle}>
             <Toaster />
-            <Paper elevation={4} sx={{
-                margin: '100px',
-                height: '65vh',
-                width: '50%',
-                '@media (max-width: 600px)': {
-                    margin: '10px',
-                    width: '80%',
-                    height: '50vh'
-                },
-                '@media (min-width: 601px) and (max-width: 960px)': {
-                    height: '35vh',
-                }
-            }}>
+            <Paper elevation={4} sx={paperStyle}>
                 <form onSubmit={handleLogin}
-                    style={{ display: 'flex', flexDirection: 'column', marginBottom: 0, width: '100%' }}>
-                    <Container sx={{
-                        marginTop: '10px',
-                        '@media (max-width: 600px)': {
-                            marginTop: '20px',
-                        },
-                    }}>
-                        <Typography fontWeight={600} my={1} sx={{
-                            textAlign: 'center', fontSize: 30, lineHeight: '38px', fontWeight: 600
-                        }}>
+                    style={formAuthStyle}>
+                    <Container sx={containerStyle}>
+                        <Typography fontWeight={600} my={1} sx={authHeaderStyle}>
                             Login
                         </Typography>
-                        <Grid container mt={2} sx={{
-                            display: 'flex',
-                            flexDirection: "row",
-                            alignItems: 'center', justifyContent: 'center'
-
-                        }}>
+                        <Grid container mt={2} sx={gridAuthStyle}>
                             <Grid item xs={12} md={8} mb={2}  >
                                 <TextField required name="username" fullWidth placeholder="Username"
                                     onChange={(e) => (setUserName(e.target.value))}
@@ -181,36 +144,18 @@ export const LoginComponent = () => {
                             </Grid>
 
                             <Grid item xs={12} md={8} mt={3}>
-                                <Button type="submit" sx={{
-                                    width: '100%',
-                                    borderRadius: '40px',
-                                    textTransform: "none",
-                                    fontSize: "16px",
-                                    boxShadow: 'none',
-                                    background: 'linear-gradient(to right, #d00000, #ffc837)',
-                                    "&:hover": {
-                                        transform: 'scale(1.1)'
-                                    }
-                                }} size="small" variant="contained" >Sign In
+                                <Button type="submit" sx={authSubmitButton} size="small" variant="contained" >Sign In
                                 </Button>
                             </Grid>
 
                         </Grid>
                     </Container>
                 </form>
-                <Link href="/signup" underline="none" sx={{
-                    marginTop: '20px',
-                    fontFamily: interFont,
-                    color: mainTheme.palette.primary.contrastText,
-                    fontSize: '18px',
-                    textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
-                    '&: hover': {
-                        color: mainTheme.palette.primary.light,
-                    }
-
-                }}
+                <Link href="/signup" underline="none" sx={authLinkStyle}
                 > Create an Account <ArrowForwardIcon sx={{ marginLeft: "10px" }} /></Link>
             </Paper>
         </Grid>
     )
 }
+
+export default LoginComponent

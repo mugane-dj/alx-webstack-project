@@ -236,7 +236,6 @@ function ResponsiveAppBar() {
                             }} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={3.0}>
-                            {/* <Typography variant={'body1'} pb={0.5} color={mainTheme.palette.primary.contrastText}>Goal Amount</Typography> */}
                             <TextField variant='outlined' name='amount' label='Goal Amount'
                                 value={goalAmount} multiline sx={{ width: '100%' }} onChange={(e) => setGoalAmount(e.target.value)} />
                         </Stack>
