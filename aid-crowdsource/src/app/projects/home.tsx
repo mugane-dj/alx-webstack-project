@@ -10,11 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import toast, { Toaster } from "react-hot-toast";
 import { UserFrontend } from "../../interfaces/IUser";
 import { useRouter } from 'next/router';
-
-
-
-
-
+import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, dialogActionsStyle, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
 
 
 export const ProjectsComponent = () => {
@@ -131,7 +127,7 @@ export const ProjectsComponent = () => {
 
 
 
-    return <Grid container spacing={1} mt={2} sx={{ display: "flex", flexDirection: "row" }}>
+    return <Grid container spacing={1} mt={2} sx={gridStyle}>
         <Toaster />
         {projects.map((project, i) => {
             const imageLocation = project.image;
@@ -139,50 +135,28 @@ export const ProjectsComponent = () => {
 
             return (
                 <Grid item xs={12} md={6} key={i}>
-                    <Card sx={{
-                        display: 'flex',
-                        '@media (max-width: 600px)': {
-                            flexDirection: 'column',
-                        },
-                    }}>
+                    <Card sx={cardStyle}>
                         <CardMedia
                             component="img"
-                            sx={{
-                                width: '40%', height: '100%', padding: '10px',
-                                '@media (max-width: 600px)': {
-                                    width: '100%',
-                                },
-                            }}
+                            sx={cardMediaStyle}
                             loading="lazy"
                             src={`${imageLocation}`}
                             alt="Project photo" />
-                        <Box sx={{
-                            display: 'flex', flexDirection: 'column', width: '60%', paddingTop: 0,
-                            '@media (max-width: 600px)': {
-                                width: '100%',
-                            },
-                        }}>
+                        <Box sx={boxProjectStyle}>
                             <CardContent>
                                 <Stack direction={'row'} sx={{ justifyContent: 'space-between' }}>
                                     <Typography sx={{ marginBottom: '15px' }}
                                         component={'div'} textTransform={'capitalize'} variant={'subtitle1'} color={mainTheme.palette.primary.contrastText}>
                                         {project.title}
                                     </Typography>
-
-                                    {loggedInUser.projects.includes(project._id) && <Button sx={{
-                                        width: '70px', height: '30px', textTransform: 'none', backgroundColor: mainTheme.palette.primary.light, color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: mainTheme.palette.primary.main,
-                                            boxShadow: 'none'
-                                        }
-                                    }}
+                                    {loggedInUser.projects.includes(project._id) && <Button sx={deleteProjectButtonStyle}
                                         variant={'contained'} onClick={() => deleteAproject(project._id)}>Delete</Button>}
                                 </Stack>
-                                <Typography sx={{ lineHeight: '20px', marginBottom: '15px' }}
+                                <Typography sx={projectDescription}
                                     variant={'body1'} color="text.secondary" component={'div'}>
                                     {capitalizeFirstLetter(project.description)}
                                 </Typography>
-                                <Stack direction={'row'} sx={{ mt: 1, alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
+                                <Stack direction={'row'} sx={projectInfoSection}>
                                     <Stack direction={'column'} marginRight={2}>
                                         <Typography variant={'subtitle2'} component={'div'} color={mainTheme.palette.primary.contrastText}>
                                             Goal Amount: Ksh {project.goalAmount}
@@ -232,16 +206,12 @@ export const ProjectsComponent = () => {
                                     variant="standard"
                                 />
                             </DialogContent>
-                            <DialogActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Button sx={{
-                                    backgroundColor: '#0C78F3', color: 'white', '&:hover': {
-                                        backgroundColor: '#0C78F3', color: 'white', transform: 'scale(1.05)'
-                                    }
-                                }}
+                            <DialogActions sx={dialogActionsStyle}>
+                                <Button sx={submitButtonStyle}
                                     variant="contained" type="submit">
                                     Submit
                                 </Button>
-                                <Button sx={{ color: mainTheme.palette.primary.main, border: `solid 1px ${mainTheme.palette.primary.main}` }} 
+                                <Button sx={closeButtonStyle} 
                                  onClick={closeModal}>Close</Button>
                             </DialogActions>
                         </form>

@@ -112,7 +112,7 @@ const mainTheme = createTheme({
             styleOverrides: {
                 root: {
                     "& .MuiOutlinedInput-root": {
-                        borderRadius: '20px',
+                        // borderRadius: '20px',
                         // "&.Mui-focused fieldset": {
                         //     borderColor: " #000000A6",                            
                         // },

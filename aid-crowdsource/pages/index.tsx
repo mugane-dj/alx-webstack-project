@@ -1,12 +1,18 @@
+import React, { useEffect } from 'react';
 import { Button, Grid, Paper, Typography } from '@mui/material'
 import mainTheme from '../src/theme'
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { ThemeProvider } from '@emotion/react';
+import { useState } from 'react';
 
 
 export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
   return (
     <ThemeProvider theme={mainTheme}>
       <Grid container sx={{ display: "flex", flexDirection: 'row', height: '100%', width: '100%' }}>
@@ -23,8 +29,8 @@ export default function Home() {
             boxShadow: 'none',
             color: 'white',
             '&: hover': {
-             transform: 'scale(1.05)',
-             backgroundColor: mainTheme.palette.primary.main,
+              transform: 'scale(1.05)',
+              backgroundColor: mainTheme.palette.primary.main,
 
             }
           }}>Login
@@ -77,7 +83,7 @@ export default function Home() {
                 <Typography variant={'body1'}>Begin by clicking the &quot;Create a Project&quot; button on your dashboard.
                   Fill out the project details, including the project&apos;s name, description, fundraising goal, and a compelling story to attract potential donors.
                   You can also upload images or videos to make your project more appealing.
-                 </Typography>
+                </Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} md={4}>

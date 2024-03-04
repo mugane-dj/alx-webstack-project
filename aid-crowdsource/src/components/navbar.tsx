@@ -219,7 +219,7 @@ function ResponsiveAppBar() {
                     <form onSubmit={createAProject} encType="multipart/form-data">
                         <Stack direction={'column'} marginBottom={3.5}>
                             <TextField variant='outlined' name='title' value={title} label='Project Title'
-                                sx={{ width: '100%', borderRadius: '40px' }}
+                                sx={{ width: '100%',}}
                                 onChange={(e) => setTitle(e.target.value)} />
                         </Stack>
                         <Stack direction={'column'} marginBottom={1.5}>
@@ -241,17 +241,15 @@ function ResponsiveAppBar() {
                         </Stack>
                         <Stack direction={'row'} marginTop={3} marginBottom={3} sx={{ justifyContent: 'space-between' }}>
                             <Button sx={{
-                                borderRadius: '40px', backgroundColor: mainTheme.palette.secondary.main, color: 'white', '&:hover': {
+                               backgroundColor: mainTheme.palette.secondary.main, color: 'white', '&:hover': {
                                     backgroundColor: mainTheme.palette.secondary.main, color: 'white', transform: 'scale(1.05)'
                                 }
                             }} variant={'contained'} type='submit' >Submit</Button>
                             <Button sx={{
                                 color: mainTheme.palette.primary.main,
-                                borderRadius: '40px',
-                                '&:hover': {
-                                    backgroundColor: mainTheme.palette.primary.main, 
-                                    color: 'white', transform: 'scale(1.05)', borderRadius: '40px'
-                                }
+                                 border: `solid 1px ${mainTheme.palette.primary.main}`,
+                                 '&:hover': {
+                                 transform: 'scale(1.05)',}
                             }} onClick={handleClose}>Cancel</Button>
                         </Stack>
                     </form>

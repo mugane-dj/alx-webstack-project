@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import PersonIcon from '@mui/icons-material/Person';
 import { UserFrontend } from "../../../interfaces/IUser";
 import toast, { Toaster } from "react-hot-toast";
-import { authHeaderStyle, authLinkStyle, authSubmitButton, containerStyle, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/style";
+import { authHeaderStyle, authLinkStyle, authSubmitButton, containerStyle, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/styleAuthPages";
 
 
 

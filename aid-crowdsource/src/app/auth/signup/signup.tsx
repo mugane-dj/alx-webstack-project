@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PersonIcon from '@mui/icons-material/Person';
 import toast, { Toaster } from "react-hot-toast";
-import { authHeaderStyle, authLinkStyle, authSubmitButton, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/style";
+import { authHeaderStyle, authLinkStyle, authSubmitButton, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/styleAuthPages";
 
 export const SignupComponent = () => {
     const [password, setPassword] = useState('');
