@@ -14,6 +14,7 @@ import { UserFrontend } from '../interfaces/IUser';
 import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { appBarStyle, avatarStyle, boxNavbarStyle, closeButtonStyle, createProjectButton, formBoxStyle, listItemButton, listItemStyle, listItemText, logoHeader, menuStyle, submitButtonStyle, textFieldStyle, toolbBarStyle } from '../utils/styleProjectsPages';
+import Cookies from 'js-cookie';
 
 
 
@@ -43,9 +44,7 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    const user = (JSON.parse(localStorage.getItem('user')!) as UserFrontend)
-    console.log(user, user.id, 'loggedin')
-
+    const user = (JSON.parse(Cookies.get('user')!) as UserFrontend)
 
     const handleImageChange = (event: any) => {
         const image = event.target.files[0];

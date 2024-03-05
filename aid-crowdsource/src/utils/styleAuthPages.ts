@@ -77,6 +77,7 @@ export const authSubmitButton = {
     textTransform: "none",
     fontSize: "16px",
     boxShadow: 'none',
+    color: 'white',
     backgroundColor: mainTheme.palette.primary.main,
     "&:hover": {
         transform: 'scale(1.05)',
