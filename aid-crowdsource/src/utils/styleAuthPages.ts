@@ -77,9 +77,11 @@ export const authSubmitButton = {
     textTransform: "none",
     fontSize: "16px",
     boxShadow: 'none',
-    background: 'linear-gradient(to right, #d00000, #ffc837)',
+    backgroundColor: mainTheme.palette.primary.main,
     "&:hover": {
-        transform: 'scale(1.1)'
+        transform: 'scale(1.05)',
+        backgroundColor: mainTheme.palette.primary.main,
+
     }
 }
 
@@ -91,6 +93,6 @@ export const authLinkStyle = {
     fontSize: '18px',
     textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '10px',
     '&: hover': {
-        color: mainTheme.palette.primary.light,
+        color: mainTheme.palette.primary.main,
     }
 }

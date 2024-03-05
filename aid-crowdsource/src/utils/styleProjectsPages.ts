@@ -1,7 +1,5 @@
 import React from "react";
 import mainTheme from "../theme";
-import { interFont } from "./font";
-
 
 
 export const gridStyle: React.CSSProperties = {
@@ -85,4 +83,113 @@ export const closeButtonStyle = {
     }
 }
 
+
+export const donateButton = {
+    color: 'blue',
+    '&:hover': {
+        transform: 'scale(1.05)'
+    }
+}
+
+///Navbar styling
+
+export const appBarStyle = {
+    background: mainTheme.palette.primary.main
+}
+
+export const toolbBarStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+}
+
+export const logoHeader = {
+    mr: 1,
+    display: 'flex',
+    fontWeight: 700,
+    textDecoration: 'none',
+    color: 'white'
+
+}
+
+export const menuStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: "30%",
+    paddingLeft: "auto",
+    paddingRight: 0,
+    marginRight: 'auto',
+    '@media (max-width: 600px)': {
+        display: 'none',
+    },
+
+}
+
+
+export const listItemStyle = {
+    "&:hover": {
+        background: "transparent",
+    },
+}
+
+export const listItemButton = {
+    textAlign: 'center',
+    padding: 0,
+    "&:hover": {
+        background: 'transparent',
+    },
+}
+
+
+export const listItemText = {
+    fontSize: '20px',
+    "&:hover": {
+        transform: 'scale(1.2)'
+    },
+    color: 'white',
+    fontWeight: 600
+}
+
+export const createProjectButton = {
+    backgroundColor: "white", color: mainTheme.palette.primary.main,
+    textTransform: "none", borderRadius: '30px',
+    '&: hover': {
+        backgroundColor: "white", color: mainTheme.palette.primary.main,
+        textTransform: "none", borderRadius: '30px', transform: 'scale(1.05)'
+    },
+    '@media (max-width: 600px)': {
+        height: '100%', width: '100px', marginRight: '10px'
+    },
+}
+
+export const boxNavbarStyle = {
+    flexGrow: 0,
+    '@media (max-width: 600px)': {
+        right: 0, marginTop: '10px'
+    },
+}
+
+
+export const avatarStyle = {
+    marginLeft: '10px',
+}
+
+export const textFieldStyle = {
+    width: '100%',
+}
+
+export const formBoxStyle = {
+    position: 'absolute' as 'absolute',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'white',
+    boxShadow: 4,
+    p: 4,
+    borderRadius: '8px'
+}
 

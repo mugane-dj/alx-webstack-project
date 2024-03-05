@@ -11,7 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { UserFrontend } from "../../interfaces/IUser";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
-import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
+import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, donateButton, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
 
 
 
@@ -210,7 +210,7 @@ export const MyProjectsComponent = () => {
 
                                     </Stack>
                                     <Stack direction={'row'}>
-                                        <Button sx={{ color: 'blue' }}
+                                        <Button sx={donateButton}
                                             onClick={() => handleOpen(userproject._id)}>Donate Now</Button>
                                     </Stack>
                                 </Stack>

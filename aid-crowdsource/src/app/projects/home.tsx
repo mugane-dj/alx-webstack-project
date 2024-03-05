@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import toast, { Toaster } from "react-hot-toast";
 import { UserFrontend } from "../../interfaces/IUser";
 import { useRouter } from 'next/router';
-import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, dialogActionsStyle, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
+import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, dialogActionsStyle, donateButton, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
 
 
 export const ProjectsComponent = () => {
@@ -170,7 +170,7 @@ export const ProjectsComponent = () => {
                                         </Stack>
                                     </Stack>
                                     <Stack direction={'row'} sx={{ right: 0, padding: 0 }}>
-                                        <Button sx={{ color: 'blue' }}
+                                        <Button sx={donateButton}
                                             onClick={() => handleOpen(project._id)}
                                         >Donate Now </Button>
                                     </Stack>
