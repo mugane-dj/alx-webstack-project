@@ -6,6 +6,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PersonIcon from '@mui/icons-material/Person';
 import toast, { Toaster } from "react-hot-toast";
 import { authHeaderStyle, authLinkStyle, authSubmitButton, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/styleAuthPages";
+import Cookies from 'js-cookie';
+
 
 export const SignupComponent = () => {
     const [password, setPassword] = useState('');
@@ -42,12 +44,13 @@ export const SignupComponent = () => {
                 },
                 body: JSON.stringify(formData)
             });
-            localStorage.setItem('user', JSON.stringify(formData));
+         console.log(Cookies.set('user', JSON.stringify(formData)), 'cookieUser');
+            
             console.log(localStorage, 'reg')
             console.log(response.json, "data");
             toast.success('User Created Successfully', { position: 'top-center' })
             // alert('User Created Successfully')
-            window.location.href = "/login";
+            // window.location.href = "/login";
         } catch (error) {
             console.log(error);
         }

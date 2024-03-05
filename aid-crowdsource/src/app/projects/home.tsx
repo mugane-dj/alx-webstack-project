@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { UserFrontend } from "../../interfaces/IUser";
 import { useRouter } from 'next/router';
 import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, dialogActionsStyle, donateButton, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
+import Cookies from "js-cookie";
 
 
 export const ProjectsComponent = () => {
@@ -21,8 +22,7 @@ export const ProjectsComponent = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
 
-    const loggedInUser = JSON.parse(localStorage.getItem('user')!) as UserFrontend;
-    console.log(loggedInUser, 'myprojects')
+    const loggedInUser = JSON.parse(Cookies.get('user')!) as UserFrontend;
 
     const handleOpen = (projectId: any) => {
         // Update the open state for the specified project

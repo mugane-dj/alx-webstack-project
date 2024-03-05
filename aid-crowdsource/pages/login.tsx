@@ -8,7 +8,7 @@ const LoginPage: NextPage = () => {
   useEffect(() => {
     setIsloaded(true)
   }, [])
-  return <LoginComponent />
+  return   <LoginComponent />
   
 
 }

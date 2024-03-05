@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import { Box, Button, Card, CardContent, CardMedia, Grid, LinearProgress, Stack, TextField, Typography } from "@mui/material"
 import mainTheme from "../../theme";
-import { ArrowForward } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Project, ProjectFrontend } from "../../interfaces/IProject";
-import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -12,19 +11,8 @@ import { UserFrontend } from "../../interfaces/IUser";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, donateButton, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
+import Cookies from "js-cookie";
 
-
-
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-};
 
 
 export const MyProjectsComponent = () => {
@@ -36,9 +24,10 @@ export const MyProjectsComponent = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
 
-    const loggedInUser = JSON.parse(localStorage.getItem('user')!) as UserFrontend;
-    console.log(loggedInUser, 'myprojects');
 
+
+    const loggedInUser = JSON.parse(Cookies.get('user')!) as UserFrontend;
+    console.log(loggedInUser, 'myprojects');
 
 
     const handleOpen = (projectId: any) => {

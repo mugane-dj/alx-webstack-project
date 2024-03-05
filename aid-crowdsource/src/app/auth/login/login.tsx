@@ -8,6 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { UserFrontend } from "../../../interfaces/IUser";
 import toast, { Toaster } from "react-hot-toast";
 import { authHeaderStyle, authLinkStyle, authSubmitButton, containerStyle, formAuthStyle, gridAuthStyle, gridStyle, paperStyle } from "../../../utils/styleAuthPages";
+import Cookies from "js-cookie";
 
 
 
@@ -34,19 +35,14 @@ const LoginComponent = () => {
 
             // Now, save the updated user data to localStorage
             try {
-                localStorage.setItem('user', JSON.stringify(data));
-                console.log('User data saved to localStorage');
-                // console.log(user, 'loguser')
+                Cookies.set('user', JSON.stringify(data));
             } catch (localStorageError) {
                 console.log('Error saving user data to localStorage:', localStorageError);
             }
-
             return data;
-
         } catch (error) {
             console.log('error getting user data', error);
         }
-
     }
 
     const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
@@ -65,19 +61,13 @@ const LoginComponent = () => {
                 body: JSON.stringify(object)
             });
             const data = await response.json();
-            console.log(data, 'login response data');
-
             // Convert the data to a string using JSON.stringify
             const dataString = JSON.stringify(data);
             const userIdMatch = dataString.match(/userId: ([a-f0-9]+)/i);
 
             if (userIdMatch) {
                 const userIdWithPrefix = userIdMatch[1];
-
-                console.log("User ID:", userIdWithPrefix);
                 const userId = userIdWithPrefix.replace('User ID: ', '');
-
-                console.log(userId);
                 getUserDetails(userId);
                 toast.success('Login Successful')
                 router.push('/home')
