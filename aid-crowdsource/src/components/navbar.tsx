@@ -45,6 +45,7 @@ function ResponsiveAppBar() {
         setAnchorElUser(null);
     };
     const user = (JSON.parse(Cookies.get('user')!) as UserFrontend)
+    console.log(user, 'user')
 
     const handleImageChange = (event: any) => {
         const image = event.target.files[0];
@@ -65,8 +66,6 @@ function ResponsiveAppBar() {
             console.log(Array.from(formData), 'arrayFrom');
             console.log(user.id, 'userId');
             console.log(formData.get('image'), 'image')
-
-
             const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
                 method: "POST",
                 body: formData,

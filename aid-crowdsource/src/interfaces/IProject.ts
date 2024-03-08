@@ -14,6 +14,8 @@ export enum ProjectStatus {
     Completed = 'completed'
 }
 
+
+export type AllUsersProjects = Project[]
 export interface Project {
     _id: ObjectId;
     title: string;
@@ -27,6 +29,8 @@ export interface Project {
     createdAt: Date;
     updatedAt: Date;
 }
+
+
 
 
 
