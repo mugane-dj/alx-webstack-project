@@ -1,3 +1,4 @@
+import { Projects } from 'aws-sdk/clients/codebuild';
 import { ObjectId } from 'mongodb';
 
 type PaymentRecord = {
@@ -14,6 +15,10 @@ export enum ProjectStatus {
     Completed = 'completed'
 }
 
+export interface ProjectsContextType {
+    projects: Project[], 
+    createAProject: (title: string, description: string, image: string, businessShortCode: string, goalAmount: string, userId: string) => {},
+}
 
 export type AllUsersProjects = Project[]
 export interface Project {

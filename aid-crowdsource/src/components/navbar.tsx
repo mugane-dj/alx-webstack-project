@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { appBarStyle, avatarStyle, boxNavbarStyle, closeButtonStyle, createProjectButton, formBoxStyle, listItemButton, listItemStyle, listItemText, logoHeader, menuStyle, submitButtonStyle, textFieldStyle, toolbBarStyle } from '../utils/styleProjectsPages';
 import Cookies from 'js-cookie';
+import { useProjectsContext } from '../context/projects';
 
 
 
@@ -23,11 +24,12 @@ const navItems = [{ title: 'Home', link: '/home' }, { title: 'My Projects', link
 
 
 function ResponsiveAppBar() {
+    const { createAProject } = useProjectsContext();
     const router = useRouter();
     const [open, setOpen] = React.useState(false);
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('')
-    const [file, setFile] = React.useState('');
+    const [file, setFile] = React.useState(null);
     const businessShortCode = '174379';
     const [goalAmount, setGoalAmount] = React.useState('');
     const [imageUrl, setImageUrl] = React.useState('');
@@ -52,37 +54,19 @@ function ResponsiveAppBar() {
         setFile(image);
         setImageUrl(URL.createObjectURL(image))
     };
-    const createAProject = async (submit: React.FormEvent<HTMLFormElement>) => {
-        submit.preventDefault()
-        try {
-            //Notice that when the FormData object is converted to an array, it stores a two-dimensional array.
-            const formData = new FormData();
-            formData.append('title', title)
-            formData.append('description', description);
-            formData.append('image', file);
-            formData.append('businessShortCode', businessShortCode);
-            formData.append('goalAmount', goalAmount);
-            console.log(formData, 'fd');
-            console.log(Array.from(formData), 'arrayFrom');
-            console.log(user.id, 'userId');
-            console.log(formData.get('image'), 'image')
-            const response = await fetch(`/api/v1/projects?userId=${user.id}`, {
-                method: "POST",
-                body: formData,
-            });
-            if (response.ok) {
-                const data = await response.json();
-                toast.success('Project Created Sucessfully');
-                console.log(data, 'projects response data');
-            } else {
-                toast.error('Error Creating Project');
-                console.error('Error creating a project:', response.status);
-            }
-        } catch (error) {
-            toast.error('Error Creating Project');
-            console.error('Error creating a project', error);
-        }
+
+    const handleLogout = () => {
+        Cookies.remove('user');
+        toast.loading('Logging out',);
+        window.location.href = '/login';
     }
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (file) {
+            await createAProject(title, description, file, businessShortCode, goalAmount, user.id);
+        }
+    };
 
 
     return (
@@ -136,7 +120,7 @@ function ResponsiveAppBar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <Button href='/login' sx={{ textTransform: 'none' }}>Logout</Button>
+                                <Button onClick={handleLogout} sx={{ textTransform: 'none' }}>Logout</Button>
                             </Menu>
                         </Box>
                     </Stack>
@@ -149,7 +133,7 @@ function ResponsiveAppBar() {
                 aria-describedby="modal-modal-description"
             >
                 <Box mt={2} sx={formBoxStyle}>
-                    <form onSubmit={createAProject} encType="multipart/form-data">
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
                         <Stack direction={'column'} marginBottom={3.5}>
                             <TextField variant='outlined' name='title' value={title} label='Project Title'
                                 sx={textFieldStyle}

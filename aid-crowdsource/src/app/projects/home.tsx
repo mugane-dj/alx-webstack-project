@@ -12,7 +12,7 @@ import { UserFrontend } from "../../interfaces/IUser";
 import { useRouter } from 'next/router';
 import { boxProjectStyle, cardMediaStyle, cardStyle, closeButtonStyle, deleteProjectButtonStyle, dialogActionsStyle, donateButton, gridStyle, projectDescription, projectInfoSection, submitButtonStyle } from "../../utils/styleProjectsPages";
 import Cookies from "js-cookie";
-import { useGetProjectsContext } from "../../context/projects";
+import { useProjectsContext } from "../../context/projects";
 
 
 export const ProjectsComponent = () => {
@@ -23,9 +23,9 @@ export const ProjectsComponent = () => {
     const [selectProject, setSelectProject] = useState<ProjectFrontend>();
 
     const loggedInUser = JSON.parse(Cookies.get('user')!) as UserFrontend;
-    const allProjects = useGetProjectsContext();
+    const {projects} = useProjectsContext();
 
-    console.log(allProjects, 'allProjects context')
+    console.log(projects, 'allProjects context')
 
     const handleOpen = (projectId: any) => {
         // Update the open state for the specified project
@@ -121,7 +121,7 @@ export const ProjectsComponent = () => {
     return (
             <Grid container spacing={1} mt={2} sx={gridStyle}>
                 <Toaster />
-                {allProjects?.map((project, i) => {
+                {projects?.map((project, i) => {
                     const imageLocation = project.image;
                     const progress = Math.round(project.amountRaised / project.goalAmount * 100);
 

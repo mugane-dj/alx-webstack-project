@@ -19,15 +19,13 @@ const HomePage: NextPage = () => {
     }, [])
     return <>
         <ThemeProvider theme={mainTheme}>
+        <ProjectsProvider>
             <ResponsiveAppBar />
             <Grid container>
-                <ProjectsProvider>
-
                     <ProjectsComponent />
-                </ProjectsProvider>
-
                 {isSmallScreen ? <MobileBottomNavigation /> : null}
             </Grid>
+            </ProjectsProvider>
         </ThemeProvider>
     </>
 
